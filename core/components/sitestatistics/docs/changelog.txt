@@ -1,0 +1,16 @@
+Changelog for siteStatistics.
+
+1.0.2-pl
+==============
+- Added a tab "Online users".
+- Добавлена вкладка "Текущие пользователи".
+
+1.0.1-pl
+==============
+- Fix error of count page statistics.
+- Исправлена ошибка подсчета статистики страницы.
+
+1.0.0-pl
+==============
+- Initial release.
+- Первый выпуск.

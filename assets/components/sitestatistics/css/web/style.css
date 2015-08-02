@@ -1,0 +1,73 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?nvf7tj');
+	src:url('fonts/icomoon.eot?#iefixnvf7tj') format('embedded-opentype'),
+	url('fonts/icomoon.ttf?nvf7tj') format('truetype'),
+	url('fonts/icomoon.woff?nvf7tj') format('woff'),
+	url('fonts/icomoon.svg?nvf7tj#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.icon-eye:before {
+	content: "\f06e";
+}
+.icon-pie-chart:before {
+	content: "\f200";
+}
+.icon-users:before {
+	content: "\e972";
+}
+.site-statistics {
+	background-color: #efefef;
+	border: 1px solid #999;
+	width: 85px;
+}
+.site-statistics > div {
+	display: inline-block;
+	line-height: 1.4em;
+	font-size: 11px;
+}
+.site-statistics .stat-left-side {
+	background-color: #cecdce;
+	border-right: 1px solid #b7b7b7;
+	font-size: 20px;
+	padding: 4px 3px 0;
+}
+.site-statistics .stat-right-side {
+	padding-top: 1px;
+	text-align: right;
+	width: 50px;
+}
+.site-statistics .stat-icon{
+	display: inline-block;
+	margin-top: 1px;
+	padding-left: 5px;
+	width: 10px;
+}
+.site-online-users {
+	background-color: #efefef;
+	border: 1px solid #999;
+	border-radius: 5px;
+	width: 135px;
+}
+.site-online-users p {
+	color: #333;
+	padding: 5px;
+}
+.site-online-users p:first-child {
+	background-color: #cecdce;
+	border-bottom: 1px solid #b7b7b7;
+}
