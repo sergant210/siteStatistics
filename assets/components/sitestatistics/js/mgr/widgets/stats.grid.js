@@ -76,7 +76,8 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 			header: 'N',
 			dataIndex: 'idx',
 			sortable: true,
-			width: 20
+			width: 20,
+			hidden: true
 		}, {
 			header: 'ID',
 			dataIndex: 'rid',
