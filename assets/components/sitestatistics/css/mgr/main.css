@@ -71,6 +71,11 @@ a.x-menu-item .x-menu-item-text .icon {
 	margin-bottom: 4px;
 	padding: 3px 0 0 20px;
 }
+.package-update {
+	color: goldenrod !important;
+	font-size: smaller;
+	cursor: default;
+}
 /*
 ul.sitestatistics-row-actions .actions-menu {width: 40px;}
 ul.sitestatistics-row-actions .actions-menu:after {content: " \f107";}

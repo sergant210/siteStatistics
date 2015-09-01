@@ -1,5 +1,5 @@
 <?php
-$xpdo_meta_map['StatPageStatistics']= array (
+$xpdo_meta_map['PageStatistics']= array (
   'package' => 'sitestatistics',
   'version' => '1.1',
   'table' => 'stat_page_statistics',
@@ -7,7 +7,7 @@ $xpdo_meta_map['StatPageStatistics']= array (
   'fields' => 
   array (
     'rid' => NULL,
-    'uid' => NULL,
+    'user_key' => NULL,
     'date' => NULL,
     'month' => NULL,
     'year' => NULL,
@@ -24,7 +24,7 @@ $xpdo_meta_map['StatPageStatistics']= array (
       'null' => false,
       'index' => 'pk',
     ),
-    'uid' => 
+    'user_key' => 
     array (
       'dbtype' => 'varchar',
       'precision' => '32',
@@ -81,7 +81,7 @@ $xpdo_meta_map['StatPageStatistics']= array (
           'collation' => 'A',
           'null' => false,
         ),
-        'uid' => 
+        'user_key' => 
         array (
           'length' => '',
           'collation' => 'A',
@@ -135,6 +135,14 @@ $xpdo_meta_map['StatPageStatistics']= array (
       'class' => 'modResource',
       'local' => 'rid',
       'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+    'StatUser' => 
+    array (
+      'class' => 'UserStatistics',
+      'local' => 'user_key',
+      'foreign' => 'user_key',
       'cardinality' => 'one',
       'owner' => 'foreign',
     ),

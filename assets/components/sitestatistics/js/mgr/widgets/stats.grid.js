@@ -3,12 +3,13 @@ siteStatistics.grid.Statistics = function (config) {
 	if (!config.id) {
 		config.id = 'sitestatistics-grid-statistics';
 	}
+	this.sm = new Ext.grid.CheckboxSelectionModel();
 	Ext.applyIf(config, {
 		url: siteStatistics.config.connector_url,
+		sm: this.sm,
 		fields: this.getFields(config),
 		columns: this.getColumns(config),
 		tbar: this.getTopBar(config),
-		sm: new Ext.grid.CheckboxSelectionModel(),
 		baseParams: {
 			action: 'mgr/statistics/getlist'
 		},
@@ -18,6 +19,12 @@ siteStatistics.grid.Statistics = function (config) {
 			autoFill: true,
 			showPreview: true,
 			scrollOffset: 0
+		},
+		listeners: {
+			rowDblClick: function (grid, rowIndex, e) {
+				var row = grid.store.getAt(rowIndex);
+				this.getUsers(grid, e, row);
+			}
 		},
 		paging: true,
 		remoteSort: true,
@@ -42,7 +49,21 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 
 		this.addContextMenuItem(menu);
 	},
-
+	getUsers: function (btn, e, row) {
+		var data = this._getSelectedIds();
+		if (!data.length) {
+			return false;
+		}
+		var total = Ext.getCmp(this.config.id +'-show-total').getValue() == true ? 1 : 0;
+		if (this.StatUsersWindow) this.StatUsersWindow.close();
+		this.StatUsersWindow = MODx.load({
+			xtype: 'sitestatistics-stats-users-window'
+			,id: Ext.id()
+			,data: data
+			,show_total: total
+		});
+		this.StatUsersWindow.show(Ext.EventObject.target);
+	},
 	removeStatistics: function (grid, rowIndex) {
 		var ids = this._getSelectedIds();
 		if (!ids.length) {
@@ -72,17 +93,18 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 	},
 
 	getColumns: function (config) {
-		return [{
+		return [this.sm,{
 			header: 'N',
 			dataIndex: 'idx',
 			sortable: true,
-			width: 20,
+			width: 30,
 			hidden: true
 		}, {
 			header: 'ID',
 			dataIndex: 'rid',
 			sortable: true,
-			width: 30
+			fixed: true,
+			width: 40
 		}, {
 			header: _('sitestatistics_pagetitle'),
 			dataIndex: 'pagetitle',
@@ -138,11 +160,12 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 			hidden: true,
 			width: 70
 		}, {
-			header: _('sitestatistics_grid_actions'),
+			header: '<i class="icon icon-cog" style="margin-left: 10px;"></i>',
 			dataIndex: 'actions',
 			renderer: siteStatistics.utils.renderActions,
 			sortable: false,
-			width: 40,
+			width: 70,
+			fixed: true,
 			id: 'actions'
 		}];
 	},
@@ -211,7 +234,7 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 				render: {
 					fn: function (tf) {
 						tf.getEl().addKeyListener(Ext.EventObject.ENTER, function () {
-							this._doSearch();
+							this._search();
 						}, this);
 					}, scope: this
 				}

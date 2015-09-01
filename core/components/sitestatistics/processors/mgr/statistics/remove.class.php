@@ -4,11 +4,10 @@
  * Remove an Items
  */
 class siteStatisticsRemoveProcessor extends modObjectProcessor {
-	public $objectType = 'StatPageStatistics';
-	public $classKey = 'StatPageStatistics';
+	public $objectType = 'sitestatistics_item';
+	public $classKey = 'PageStatistics';
 	public $languageTopics = array('sitestatistics');
 	//public $permission = 'remove';
-
 
 	/**
 	 * @return array|string
@@ -17,7 +16,6 @@ class siteStatisticsRemoveProcessor extends modObjectProcessor {
 		if (!$this->checkPermissions()) {
 			return $this->failure($this->modx->lexicon('access_denied'));
 		}
-		//return $this->success();
 		$_ids = $this->modx->fromJSON($this->getProperty('ids'));
 		if (empty($_ids)) {
 			return $this->failure($this->modx->lexicon('sitestatistics_item_err_ns'));
@@ -62,30 +60,15 @@ class siteStatisticsRemoveProcessor extends modObjectProcessor {
 		foreach ($ids as $where) {
 			if (empty($where) && !$delete_table) continue;
 			/** @var xPDOquery $q */
-			$q = $this->modx->newQuery('StatPageStatistics');
+			$q = $this->modx->newQuery('PageStatistics');
 			$q->command('delete');
 			//$q->select('rid');
 			$q->where($where);
 			$q->prepare();
-//$this->modx->log(modX::LOG_LEVEL_ERROR,print_r($q->toSQL(),true) );
 			$q->stmt->execute();
-
 		}
-//$this->modx->log(modX::LOG_LEVEL_ERROR, print_r($ids,true));
-		/*
-		foreach ($ids as $id) {
-			// @var StatPageStatistics $object
-			if (!$object = $this->modx->getObject($this->classKey, $id)) {
-				return $this->failure($this->modx->lexicon('sitestatistics_item_err_nf'));
-			}
-
-			//$object->remove();
-		}
-	*/
-
 		return $this->success();
 	}
-
 }
 
 return 'siteStatisticsRemoveProcessor';

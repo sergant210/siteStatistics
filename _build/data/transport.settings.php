@@ -15,7 +15,7 @@ $tmp = array(
 	),
 	'count_online_users' => array(
 		'xtype' => 'combo-boolean',
-		'value' => false,
+		'value' => true,
 		'area' => 'sitestatistics_main',
 	),
 );

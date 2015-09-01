@@ -1,5 +1,14 @@
 Changelog for siteStatistics.
 
+2.0.0-pl
+==============
+- Added a tab "Users".
+- Добавлена вкладка "Пользователи" для учета посещений.
+- Added an ability to send the user a message.
+- Появилась возможноть послать пользователю сообщение.
+- Added a marker "Update is available"
+- Добавлен маркер, сообщающий, что доступно обновление компонента.
+
 1.0.2-pl
 ==============
 - Added a tab "Online users".

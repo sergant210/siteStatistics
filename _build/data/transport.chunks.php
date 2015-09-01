@@ -11,6 +11,10 @@ $tmp = array(
 		'file' => 'onlineusers',
 		'description' => '',
 	),
+    'tpl.siteStatistics.message' => array(
+		'file' => 'messagedlg',
+		'description' => '',
+	),
 );
 
 // Save chunks for setup options

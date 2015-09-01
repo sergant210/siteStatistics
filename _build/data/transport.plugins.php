@@ -8,7 +8,7 @@ $tmp = array(
 		'description' => '',
 		'events' => array(
 			'OnLoadWebDocument' => array(),
-			//'OnWebPageComplete' => array(),
+			'OnWebPageComplete' => array(),
 		)
 	)
 );

@@ -31,8 +31,11 @@ class siteStatisticsHomeManagerController extends siteStatisticsMainController {
 		$this->addCss($this->siteStatistics->config['cssUrl'] . 'mgr/main.css');
 		$this->addCss($this->siteStatistics->config['cssUrl'] . 'mgr/bootstrap.buttons.css');
 		$this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/misc/utils.js');
-		$this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/stats.grid.js');
+        $this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/users.windows.js');
+        $this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/stats.windows.js');
+        $this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/stats.grid.js');
         $this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/users.grid.js');
+        $this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/onlineusers.grid.js');
 		$this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/widgets/home.panel.js');
 		$this->addJavascript($this->siteStatistics->config['jsUrl'] . 'mgr/sections/home.js');
 		$this->addHtml('<script type="text/javascript">

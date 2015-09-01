@@ -3,7 +3,7 @@
 $xpdo_meta_map = array (
   'xPDOObject' => 
   array (
-    0 => 'StatOnlineUsers',
-    1 => 'StatPageStatistics',
+    0 => 'UserStatistics',
+    1 => 'PageStatistics',
   ),
 );

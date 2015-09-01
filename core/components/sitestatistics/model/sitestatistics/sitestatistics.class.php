@@ -7,12 +7,16 @@ class siteStatistics {
 	/* @var modX $modx */
 	public $modx;
 	public $config = array();
+    public $need2ClearCache = false;
+    public $initialized = false;
+
 
 	/**
 	 * @param modX $modx
 	 * @param array $config
 	 */
-	function __construct(modX &$modx, array $config = array()) {
+	function __construct(modX &$modx, array $config = array())
+    {
 		$this->modx =& $modx;
 
 		$corePath = $this->modx->getOption('sitestatistics_core_path', $config, $this->modx->getOption('core_path') . 'components/sitestatistics/');
@@ -38,38 +42,73 @@ class siteStatistics {
 		$this->modx->addPackage('sitestatistics', $this->config['modelPath']);
 		$this->modx->lexicon->load('sitestatistics:default');
 	}
-	public function initialize($sp) {
-		$this->modx->regClientCSS($this->config['cssUrl'].'web/style.css');
-		$this->config = array_merge($this->config, $sp);
+	public function initialize($sp = array())
+    {
+        if (!$this->initialized) {
+            $this->modx->regClientCSS($this->config['cssUrl'] . 'web/style.css');
+            $this->config = array_merge($this->config, $sp);
+            $this->initialized = true;
+        }
 	}
 
-	public function setStatistics(){
-		$user_id = ($this->modx->user->id != 0) ? $this->modx->user->id : $_SESSION['siteStatistics'];
+    public function getUserKey()
+    {
+        $key = 'siteStatistics';
+        if ($this->modx->user->id != 0) {
+            $query = $this->modx->newQuery('UserStatistics');
+            $query->select('user_key');
+            $query->where(array(
+                'uid' => $this->modx->user->id,
+            ));
+            $user_key = $this->modx->getValue($query->prepare());
+            if (!empty($user_key)) $_SESSION[$key] = $user_key;
+        }
+        if (empty($_COOKIE[$key])) {
+            if (empty($_SESSION[$key])) {
+                $_SESSION[$key] = md5(rand() . time() . rand());
+            }
+            setcookie($key, $_SESSION[$key], 0x7FFFFFFF, '/');
+        } else {
+            if (empty($_SESSION[$key])) {
+                $_SESSION[$key] = $_COOKIE[$key];
+            } elseif ($_SESSION[$key] != $_COOKIE[$key]) {
+                $_COOKIE[$key] = $_SESSION[$key];
+            }
+        }
+        return '';
+    }
+
+	public function setStatistics()
+    {
+
 		$data = array(
 			'rid' => $this->modx->resource->get('id'),
 			'date' => date('Y-m-d'),
-			'uid' => $user_id
+            'user_key' => $_SESSION['siteStatistics']
 		);
-		if (!$pageStat = $this->modx->getObject('StatPageStatistics',$data)) {
-			$pageStat = $this->modx->newObject('StatPageStatistics');
+		if (!$pageStat = $this->modx->getObject('PageStatistics',$data)) {
+			$pageStat = $this->modx->newObject('PageStatistics');
 			$pageStat->set('rid',$data['rid']);
 			$pageStat->set('date',$data['date']);
-			$pageStat->set('uid',$data['uid']);
+            $pageStat->set('user_key',$data['user_key']);
+            //$pageStat->set('uid',$this->modx->user->id);
 			$pageStat->set('month',date('Y-m'));
 			$pageStat->set('year',date('Y'));
-		}
+			$pageStat->set('views',0);
+		} else {
+        }
 		$count = $pageStat->get('views');
 		$pageStat->set('views',$count+1);
 		$pageStat->save();
 	}
 
-	/**
+    /**
 	 * @param $resource
 	 * @return int|void
 	 */
 	public function getPageStatistics($resource=0)
 	{
-		$query = $this->modx->newQuery('StatPageStatistics');
+		$query = $this->modx->newQuery('PageStatistics');
 		//$query->setClassAlias('');
 		if (!empty($resource) && is_numeric($resource)) {
 			$query->where(array(
@@ -115,7 +154,7 @@ class siteStatistics {
 				break;
 		}
 		if (($this->config['toPlaceholders'] && $this->config['toPlaceholders'] !='false') || $this->config['show'] == 'all') {
-			$query->select('COUNT(DISTINCT uid) as users, SUM(views) as views');
+			$query->select('COUNT(DISTINCT user_key) as users, SUM(views) as views');
 			$tstart = microtime(true);
 			if ($query->prepare() && $query->stmt->execute()) {
 				$this->modx->queryTime += microtime(true) - $tstart;
@@ -125,7 +164,7 @@ class siteStatistics {
 			if (empty($res)) $res = array('users'=>0,'views'=>0);
 		} else {
 			if (trim($this->config['show']) == 'users')
-				$query->select('COUNT(DISTINCT uid)');
+				$query->select('COUNT(DISTINCT user_key)');
 			else
 				$query->select('SUM(views)');
 			$res = $this->modx->getValue($query->prepare());
@@ -137,7 +176,8 @@ class siteStatistics {
 	/**
 	 * @return array
 	 */
-	public function getSiteStatistics(){
+	public function getSiteStatistics()
+    {
 		$this->config['show'] = 'all';
 		/** @var array $output */
 		$output = $this->getPageStatistics();
@@ -146,16 +186,21 @@ class siteStatistics {
 	}
 
 	/**
-	 * @param string $user_key
+	 *
 	 */
-	public function countOnlineUsers($user_key){
-		if ($this->modx->getCount('StatOnlineUsers',$user_key)) {
-			$query = $this->modx->newQuery('StatOnlineUsers');
+	public function setUserStatistics()
+    {
+        $user_key = $_SESSION['siteStatistics'];
+		if ($this->modx->getCount('UserStatistics',$user_key)) {
+			$query = $this->modx->newQuery('UserStatistics');
 			$query->command('update');
-			$query->set(array(
-				'date' => date('Y-m-d H:i'),
-				'user' => $this->modx->user->id
-			));
+            $setData = array(
+                'date' => date('Y-m-d H:i'),
+                'rid' => $this->modx->resource->id,
+                'context' => $this->modx->context->get('key')
+            );
+            if ($this->modx->user->id != 0) $setData['uid'] = $this->modx->user->id;
+			$query->set($setData);
 			$query->where(array('user_key' => $user_key));
 			$tstart = microtime(true);
 			if ($query->prepare() && $query->stmt->execute()) {
@@ -167,29 +212,26 @@ class siteStatistics {
 				$this->modx->quote($user_key),
 				$this->modx->quote(date('Y-m-d H:i')),
 				$this->modx->user->id,
-				"'".$this->modx->context->get('key')."'"
+				"'".$this->modx->context->get('key')."'",
+                $this->modx->resource->id
 			);
-			$sql = "INSERT INTO {$this->modx->getTableName('StatOnlineUsers')} (`user_key`,`date`,`user`,`context`) VALUES (" . implode(',',$data).")";
+			$sql = "INSERT INTO {$this->modx->getTableName('UserStatistics')} (`user_key`,`date`,`uid`,`context`,`rid`) VALUES (" . implode(',',$data).")";
 			$query = $this->modx->prepare($sql);
 			if (!$query->execute()) {
 				$this->modx->log(modX::LOG_LEVEL_ERROR, '[siteStatistics] Could not save online user data. '.print_r($query->errorInfo(),1));
 			}
-		}
-		// Удаляем неактивных пользователей
-		$time = $this->modx->getOption('stat.online_time',15);
-		$sql = "DELETE FROM {$this->modx->getTableName('StatOnlineUsers')} WHERE date < NOW() -  INTERVAL '$time' MINUTE";
-		$query = $this->modx->prepare($sql);
-		if (!$query->execute()) {
-			$this->modx->log(modX::LOG_LEVEL_ERROR, '[siteStatistics] Could not delete inactive online user. '.print_r($query->errorInfo(),1));
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getOnlineUsers(){
-		$query = $this->modx->newQuery('StatOnlineUsers');
-		$query->select('user');
+	public function getOnlineUsers()
+    {
+		$query = $this->modx->newQuery('UserStatistics');
+		$query->select('uid');
+        $time = $this->modx->getOption('stat.online_time',null,15);
+        $query->where("date > NOW() -  INTERVAL '$time' MINUTE");
 		if (!empty($this->config['ctx'])) $query->where(array('context'=>trim($this->config['ctx'])));
 		$tstart = microtime(true);
 		$res = array();
@@ -200,11 +242,57 @@ class siteStatistics {
 		}
 		$users = $guests = 0;
 		foreach ($res as $user) {
-			if ($user['user'])
+			if ($user['uid'])
 				$users++;
 			else
 				$guests++;
 		}
 		return array('stat.online_users'=>$users,'stat.online_guests'=>$guests);
 	}
+
+    public function getMessage()
+    {
+        if ($user = $this->modx->getObject('UserStatistics', array('user_key'=>$_SESSION['siteStatistics'], 'show_message'=>1)) ) {
+            $message = $user->get('message');
+            $user->set('show_message', 0);
+            $user->set('message_showed', time());
+            $user->save();
+            if ($message) {
+                $message = nl2br($message);
+                $dlg = $this->modx->getChunk('tpl.siteStatistics.message', array('stat.message' => $message));
+                if (strpos($dlg, '[[') !== false) {
+                    $maxIterations = (integer)$this->modx->getOption('parser_max_iterations', null, 10);
+                    $this->modx->getParser()->processElementTags('', $dlg, false, false, '[[', ']]', array(), $maxIterations);
+                    $this->modx->getParser()->processElementTags('', $dlg, true, true, '[[', ']]', array(), $maxIterations);
+                }
+                $script = $dlg . "\n<script type=\"text/javascript\">
+    function statDialogClose(){
+        var statDialog = document.getElementById('sitestat-message-dlg');
+        statDialog.firstElementChild.style.opacity=0;
+        setTimeout(function(){statDialog.style.display = 'none';},500);
+    }
+    document.getElementById('message-dlg-close-btn').onclick = statDialogClose;
+    setTimeout(function(){
+        var statDialog = document.getElementById('sitestat-message-dlg');
+        statDialog.style.display = 'block';
+        setTimeout(function(){statDialog.firstElementChild.style.opacity=1;},500);
+    },1000)</script>";
+                $this->modx->regClientHTMLBlock($script);
+                if (!$this->initialized) $this->modx->regClientCSS($this->config['cssUrl'] . 'web/style.css');
+            }
+            return true;
+        }
+        return false;
+    }
+    public function clearCache()
+    {
+        if ($this->need2ClearCache) {
+            /** @var xPDOFileCache $cache */
+            $cache = $this->modx->cacheManager->getCacheProvider($this->modx->getOption('cache_resource_key', null, 'resource'));
+            $cacheKey = $this->modx->resource->getCacheKey($this->modx->context->key);
+            $cache->delete($cacheKey, array('deleteTop' => true));
+            $cache->delete($cacheKey);
+            $this->need2ClearCache = false;
+        }
+    }
 }

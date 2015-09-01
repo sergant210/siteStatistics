@@ -4,8 +4,8 @@
  * Get a list of Items
  */
 class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
-	public $objectType = 'StatPageStatistics';
-	public $classKey = 'StatPageStatistics';
+	public $objectType = 'sitestatistics_item';
+	public $classKey = 'PageStatistics';
 	public $defaultSortField = 'Stat.rid';
 	public $defaultSortDirection = 'ASC';
 	protected $display_date;
@@ -34,15 +34,15 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 	 */
 	public function prepareQueryBeforeCount(xPDOQuery $c) {
 		$show_total = intval($this->getProperty('show_total', 0));
-		$context = trim($this->getProperty('context',''));
+		$context = $this->getProperty('context','');
 		$c->setClassAlias('Stat');
 		if (empty($show_total)) {
 			$c->innerJoin('modResource','Resource');
-			$c->select('Stat.rid, Resource.pagetitle, Resource.context_key as context, COUNT(DISTINCT Stat.uid) as users, SUM(Stat.views) as views');
+			$c->select('Stat.rid, Resource.pagetitle, Resource.context_key as context, COUNT(DISTINCT Stat.user_key) as users, SUM(Stat.views) as views');
 			$c->groupby('Stat.rid');
 		} else {
 			$ctx_txt = empty($context) ? $this->modx->lexicon('sitestatistics_all_contexts') : $context;
-			$c->select("'' as rid,'".$this->modx->lexicon('sitestatistics_all_resources')."' as pagetitle,'".$ctx_txt."' as context, COUNT(DISTINCT Stat.uid) as users, SUM(Stat.views) as views");
+			$c->select("'' as rid,'".$this->modx->lexicon('sitestatistics_all_resources')."' as pagetitle,'".$ctx_txt."' as context, COUNT(DISTINCT Stat.user_key) as users, SUM(Stat.views) as views");
 		}
 		$query = trim($this->getProperty('query'));
 		if ($query && !$show_total) {
@@ -55,8 +55,9 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 				'Resource.context_key' => "{$context}",
 			));
 		}
-		$period = $this->period = trim($this->getProperty('period', null));
+		$period = $this->period = trim($this->getProperty('period', ''));
 		$date = trim($this->getProperty('date', null));
+        if (empty($period) && !empty($date)) $period = $this->period = 'day';
 		switch ($period) {
 			case 'day':
 				$c->groupby('Stat.date');
@@ -174,11 +175,21 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 				$row['idx'] = ++$this->currentIndex;
 
 				$row['actions'] = array();
+                // Get Users
+                $row['actions'][] = array(
+                    'cls' => '',
+                    'icon' => 'icon icon-users',
+                    'title' => $this->modx->lexicon('sitestatistics_users'),
+                    'action' => 'getUsers',
+                    'button' => true,
+                    'menu' => true,
+                );
 				// Remove
 				$row['actions'][] = array(
 					'cls' => '',
 					'icon' => 'icon icon-trash-o action-red',
 					'title' => $this->modx->lexicon('sitestatistics_item_remove'),
+					'multiple' => $this->modx->lexicon('sitestatistics_item_remove'),
 					'action' => 'removeStatistics',
 					'button' => true,
 					'menu' => true,

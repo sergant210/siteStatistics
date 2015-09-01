@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model package="sitestatistics" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" version="1.1">
-	<object class="StatOnlineUsers" table="stat_online_users" extends="xPDOObject">
+	<object class="UserStatistics" table="stat_online_users" extends="xPDOObject">
 		<field key="user_key" dbtype="varchar" precision="32" phptype="string" null="false" index="pk" />
-		<field key="date" dbtype="datetime" phptype="datetime" null="false" />
-		<field key="user" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" />
+		<field key="date" dbtype="datetime" phptype="datetime" null="false" index="index" />
+		<field key="uid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="index" />
+		<field key="rid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" />
 		<field key="context" dbtype="varchar" precision="100" phptype="string" null="false" />
+		<field key="show_message" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
+		<field key="message" dbtype="text" phptype="string" null="false" />
+		<field key="message_showed" dbtype="int" precision="11" attributes="unsigned" phptype="integer" null="true"/>
 
 		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE" >
 			<column key="user_key" length="" collation="A" null="false" />
 		</index>
+		<index alias="date" name="date" primary="false" unique="false" type="BTREE" >
+			<column key="date" length="" collation="A" null="false" />
+		</index>
+		<index alias="uid" name="uid" primary="false" unique="false" type="BTREE" >
+			<column key="uid" length="" collation="A" null="false" />
+		</index>
 
-		<aggregate alias="User" class="modUserProfile" local="user" foreign="internalKey" cardinality="one" owner="foreign" />
+		<aggregate alias="User" class="modUserProfile" local="uid" foreign="internalKey" cardinality="one" owner="foreign" />
+		<aggregate alias="PageUser" class="PageStatistics" local="user_key" foreign="user_key" cardinality="many" owner="local" />
 	</object>
-	<object class="StatPageStatistics" table="stat_page_statistics" extends="xPDOObject">
+
+	<object class="PageStatistics" table="stat_page_statistics" extends="xPDOObject">
 		<field key="rid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
-		<field key="uid" dbtype="varchar" precision="32" phptype="string" null="false" index="pk" />
+		<field key="user_key" dbtype="varchar" precision="32" phptype="string" null="false" index="pk" />
 		<field key="date" dbtype="date" phptype="date" null="false" index="pk" />
 		<field key="month" dbtype="varchar" precision="7" phptype="string" null="false" index="index" />
 		<field key="year" dbtype="varchar" precision="4" phptype="string" null="false" index="index" />
@@ -22,7 +34,7 @@
 
 		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE" >
 			<column key="rid" length="" collation="A" null="false" />
-			<column key="uid" length="" collation="A" null="false" />
+			<column key="user_key" length="" collation="A" null="false" />
 			<column key="date" length="" collation="A" null="false" />
 		</index>
 		<index alias="month" name="month" primary="false" unique="false" type="BTREE" >
@@ -33,5 +45,6 @@
 		</index>
 
 		<aggregate alias="Resource" class="modResource" local="rid" foreign="id" cardinality="one" owner="foreign" />
+		<aggregate alias="StatUser" class="UserStatistics" local="user_key" foreign="user_key" cardinality="one" owner="foreign" />
 	</object>
 </model>
