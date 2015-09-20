@@ -10,7 +10,7 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'icomoon';
+	font-family: FontAwesome,icomoon;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;

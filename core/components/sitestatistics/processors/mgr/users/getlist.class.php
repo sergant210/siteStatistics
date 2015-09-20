@@ -46,7 +46,12 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
     public function prepareRow(xPDOObject $object) {
         $user = $object->toArray();
         if (empty($user['fullname'])) $user['fullname'] = $this->modx->lexicon('stat_online_guest');
-        $user['rid'] = '<a href="?a=resource/update&id='.$user['rid'].'">'.$user['rid'].'</a>';
+        $query = $this->modx->newQuery('modResource', array(
+            'id' => $user['rid'],
+        ));
+        $query->select('pagetitle');
+        if (!$pagetitle = $this->modx->getValue($query->prepare())) $pagetitle = $user['rid'];
+        $user['rid'] = !empty($user['rid']) ? '<a href="?a=resource/update&id='.$user['rid'].'">'.$pagetitle.'</a>' : '';
         $month = 'month'. date('n',strtotime($user['date']));
         $user['date'] = $this->modx->lexicon($month).' '.date('j, Y, H:i',strtotime($user['date']));
         $month = 'month'. date('n',$user['message_showed']);

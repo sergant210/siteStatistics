@@ -34,7 +34,8 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
         $c->leftJoin('modUserProfile','User');
         $c->select('UserStatistics.user_key, UserStatistics.rid, UserStatistics.context,User.fullname');
         $time = $this->modx->getOption('stat.online_time',null,15);
-        $c->where("UserStatistics.date > NOW() -  INTERVAL '$time' MINUTE");
+        $where = "UserStatistics.date > '".date('Y-m-d H:i:s')."' -  INTERVAL '".$time."' MINUTE";
+        $c->where($where);
 
         return $c;
     }

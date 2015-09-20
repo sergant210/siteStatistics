@@ -132,18 +132,18 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			header: _('sitestatistics_users'),
 			dataIndex: 'fullname',
 			sortable: true,
-			width: 500
+			width: 200
 		}, {
 			header: _('sitestatistics_resource'),
 			dataIndex: 'rid',
 			sortable: true,
-			width: 100
+			width: 200
 		}, {
 			header: _('sitestatistics_date'),
 			dataIndex: 'date',
 			sortable: true,
 			fixed: true,
-			width: 150
+			width: 180
 		}, {
 			header: _('sitestatistics_context'),
 			dataIndex: 'context',
@@ -155,7 +155,7 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			dataIndex: 'message_showed',
 			sortable: false,
 			fixed: true,
-			width: 150
+			width: 180
 		}, {
 			header: '<i class="icon icon-cog" style="margin-left: 2px;"></i>',
 			dataIndex: 'actions',

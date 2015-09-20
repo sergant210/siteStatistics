@@ -51,7 +51,7 @@ class siteStatistics {
         }
 	}
 
-    public function getUserKey()
+    public function defineUserKey()
     {
         $key = 'siteStatistics';
         if ($this->modx->user->id != 0) {
@@ -80,7 +80,7 @@ class siteStatistics {
 
 	public function setStatistics()
     {
-
+        if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') return false;
 		$data = array(
 			'rid' => $this->modx->resource->get('id'),
 			'date' => date('Y-m-d'),
@@ -91,13 +91,13 @@ class siteStatistics {
 			$pageStat->set('rid',$data['rid']);
 			$pageStat->set('date',$data['date']);
             $pageStat->set('user_key',$data['user_key']);
-            //$pageStat->set('uid',$this->modx->user->id);
 			$pageStat->set('month',date('Y-m'));
 			$pageStat->set('year',date('Y'));
 			$pageStat->set('views',0);
-		} else {
-        }
+		}
 		$count = $pageStat->get('views');
+        //TODO Добавить ip
+        //$pageStat->set('user_ip',$this->getUsetIP());
 		$pageStat->set('views',$count+1);
 		$pageStat->save();
 	}
@@ -294,5 +294,22 @@ class siteStatistics {
             $cache->delete($cacheKey);
             $this->need2ClearCache = false;
         }
+    }
+
+    /**
+     * Определяем реальный IP пользователя
+     * @return string
+     */
+    function getUsetIP(){
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+            //check ip from share internet
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            //to check ip is pass from proxy
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
     }
 }

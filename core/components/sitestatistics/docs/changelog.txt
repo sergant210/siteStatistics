@@ -1,5 +1,12 @@
 Changelog for siteStatistics.
 
+2.0.1-pl
+==============
+- Fixed some bugs.
+- Исправлено несколько ошибок.
+- Some improvements.
+- Небольшие улучшения интерфейса.
+
 2.0.0-pl
 ==============
 - Added a tab "Users".

@@ -5,7 +5,7 @@ switch ($modx->event->name) {
             $path = $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/').'model/sitestatistics/';
             /** @var siteStatistics $siteStat */
             $siteStat = $modx->getService('sitestatistics', 'siteStatistics', $path);
-            $siteStat->getUserKey();
+            $siteStat->defineUserKey();
             // Статистика просмотров
             if ($modx->getOption('stat.enable_statistics', false)) {
                 $siteStat->setStatistics();

@@ -87,7 +87,7 @@ siteStatistics.grid.UserStatGrid = function (config) {
 		,forceFit: true
 		,autoFill: true
 		,showPreview: true
-		,enableRowBody: true
+		,enableRowBody: false
 		,scrollOffset: 0
 	});
 	siteStatistics.grid.UserStatGrid.superclass.constructor.call(this, config);
