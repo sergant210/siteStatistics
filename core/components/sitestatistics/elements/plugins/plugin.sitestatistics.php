@@ -1,4 +1,5 @@
 <?php
+if (preg_match('/(bot|spider|slurp)/i',$_SERVER['HTTP_USER_AGENT'])) return;
 switch ($modx->event->name) {
     case 'OnLoadWebDocument': {
         if ($modx->getOption('stat.enable_statistics', false) || $modx->getOption('stat.count_online_users', false)) {
@@ -14,7 +15,7 @@ switch ($modx->event->name) {
             if ($modx->getOption('stat.count_online_users', false)) {
                 $siteStat->setUserStatistics();
             }
-            $modx->sitestatistics->need2ClearCache = $siteStat->getMessage();
+            $siteStat->need2ClearCache = $siteStat->getMessage();
         }
         break;
     }

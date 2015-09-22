@@ -36,6 +36,7 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
         $time = $this->modx->getOption('stat.online_time',null,15);
         $where = "UserStatistics.date > '".date('Y-m-d H:i:s')."' -  INTERVAL '".$time."' MINUTE";
         $c->where($where);
+        $c->sortby('UserStatistics.date','DESC');
 
         return $c;
     }
@@ -49,7 +50,12 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
     public function prepareRow(xPDOObject $object) {
         $user = $object->toArray();
         if (empty($user['fullname'])) $user['fullname'] = $this->modx->lexicon('stat_online_guest');
-        $user['rid'] = '<a href="?a=resource/update&id='.$user['rid'].'">'.$user['rid'].'</a>';
+        $query = $this->modx->newQuery('modResource', array(
+            'id' => $user['rid'],
+        ));
+        $query->select('pagetitle');
+        if (!$pagetitle = $this->modx->getValue($query->prepare())) $pagetitle = $user['rid'];
+        $user['rid'] = !empty($user['rid']) ? '<a href="?a=resource/update&id='.$user['rid'].'">'.$pagetitle.'</a>' : '';
         $user['date'] = date('H:i',strtotime($user['date']));
 
         return $user;

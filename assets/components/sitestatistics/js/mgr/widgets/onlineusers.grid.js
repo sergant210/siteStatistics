@@ -42,12 +42,12 @@ Ext.extend(siteStatistics.grid.OnlineUsers, MODx.grid.Grid, {
 			header: _('sitestatistics_users'),
 			dataIndex: 'fullname',
 			sortable: true,
-			width: 400
+			width: 200
 		}, {
 			header: _('sitestatistics_resource'),
 			dataIndex: 'rid',
 			sortable: true,
-			width: 100
+			width: 200
 		}, {
 			header: _('stat_online_time'),
 			dataIndex: 'date',

@@ -6,6 +6,8 @@ Changelog for siteStatistics.
 - Исправлено несколько ошибок.
 - Some improvements.
 - Небольшие улучшения интерфейса.
+- Added a filter cutting robots.
+- Добавлен фильтр, отсекающий роботов.
 
 2.0.0-pl
 ==============
