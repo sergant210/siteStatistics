@@ -47,7 +47,7 @@ siteStatistics.panel.Home = function (config) {
 					listeners: {
 						success: {
 							fn: function (r) {
-								Ext.getCmp('sitestatistics-panel-title').html ='<h2>' + _('sitestatistics_title') + ' ' + _('sitestatistics_package_update') + '</h2>';
+								Ext.getCmp('sitestatistics-panel-title').update('<h2>' + _('sitestatistics_title') + ' ' + _('sitestatistics_package_update') + '</h2>');
 							}, scope: this
 						}
 					}

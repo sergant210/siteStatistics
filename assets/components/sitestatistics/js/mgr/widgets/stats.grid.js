@@ -103,7 +103,7 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 			header: 'ID',
 			dataIndex: 'rid',
 			sortable: true,
-			fixed: true,
+			//fixed: true,
 			width: 40
 		}, {
 			header: _('sitestatistics_pagetitle'),

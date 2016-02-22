@@ -6,18 +6,23 @@ $tmp = array(
 	'online_time' => array(
 		'xtype' => 'numberfield',
 		'value' => 15,
-		'area' => 'sitestatistics_main',
+		'area'  => 'sitestatistics_main',
 	),
 	'enable_statistics' => array(
 		'xtype' => 'combo-boolean',
 		'value' => true,
-		'area' => 'sitestatistics_main',
+		'area'  => 'sitestatistics_main',
 	),
 	'count_online_users' => array(
 		'xtype' => 'combo-boolean',
 		'value' => true,
-		'area' => 'sitestatistics_main',
+		'area'  => 'sitestatistics_main',
 	),
+    'frontend_css' => array(
+        'xtype' => 'textfield',
+        'value' => '{assets_url}components/sitestatistics/css/web/style.css',
+        'area'  => 'sitestatistics_main',
+    ),
 );
 
 foreach ($tmp as $k => $v) {

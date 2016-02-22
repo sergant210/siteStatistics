@@ -45,7 +45,8 @@ class siteStatistics {
 	public function initialize($sp = array())
     {
         if (!$this->initialized) {
-            $this->modx->regClientCSS($this->config['cssUrl'] . 'web/style.css');
+            $style = $this->modx->getOption('stat.frontend_css',null,'');
+            if ($style) $this->modx->regClientCSS($style);
             $this->config = array_merge($this->config, $sp);
             $this->initialized = true;
         }
@@ -96,7 +97,7 @@ class siteStatistics {
 			$pageStat->set('views',0);
 		}
 		$count = $pageStat->get('views');
-        //TODO Добавить ip
+        //TODO  ip
         //$pageStat->set('user_ip',$this->getUsetIP());
 		$pageStat->set('views',$count+1);
 		$pageStat->save();
@@ -297,14 +298,14 @@ class siteStatistics {
     }
 
     /**
-     * Определяем реальный IP пользователя
+     * РџРѕР»СѓС‡Р°РµРј IP РїРѕР»СЊРІР°С‚РµР»СЏ
      * @return string
      */
     function getUsetIP(){
         if (!empty($_SERVER['HTTP_CLIENT_IP'])){
             //check ip from share internet
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        } elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
             //to check ip is pass from proxy
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
         } else {

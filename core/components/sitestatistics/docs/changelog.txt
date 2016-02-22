@@ -1,4 +1,7 @@
-Changelog for siteStatistics.
+2.0.2-pl
+==============
+- Added system setting "stat.frontend_css".
+- Добавлена системная настройка "stat.frontend_css", в которой можно указать свой файл стилей или оставить пустой.
 
 2.0.1-pl
 ==============
