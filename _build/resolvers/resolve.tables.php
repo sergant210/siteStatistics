@@ -1,67 +1,81 @@
 <?php
 
 if ($object->xpdo) {
-	/** @var modX $modx */
-	$modx =& $object->xpdo;
+    /** @var modX $modx */
+    $modx =& $object->xpdo;
 
-	switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-		case xPDOTransport::ACTION_INSTALL:
-			$modelPath = $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/') . 'model/';
-			$modx->addPackage('sitestatistics', $modelPath);
-
-			$manager = $modx->getManager();
-			$objects = array(
-				'PageStatistics',
-				'UserStatistics',
-			);
-			foreach ($objects as $tmp) {
-				$manager->createObjectContainer($tmp);
-			}
-			break;
-
-		case xPDOTransport::ACTION_UPGRADE:
+    switch ($options[xPDOTransport::PACKAGE_ACTION]) {
+        case xPDOTransport::ACTION_INSTALL:
+        case xPDOTransport::ACTION_UPGRADE:
             $modelPath = $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/') . 'model/';
             $modx->addPackage('sitestatistics', $modelPath);
 
             $manager = $modx->getManager();
-            // Переименовываем 1
-            $query = "SHOW COLUMNS FROM {$modx->getTableName('PageStatistics')}";
-            $result = $modx->query($query);
-            $fields = $result->fetchAll(PDO::FETCH_ASSOC);
-            $rename = true;
-            foreach ($fields as $field){
-                if ($field['Field'] == 'user_key') $rename = false;
-            };
-            if ($rename) {
-                $query = "ALTER TABLE {$modx->getTableName('PageStatistics')} CHANGE uid user_key varchar(32)";
-                $result = $modx->exec($query);
+            $objects = array();
+            $schemaFile = $modelPath . 'schema/sitestatistics.mysql.schema.xml';
+            if (is_file($schemaFile)) {
+                $schema = new SimpleXMLElement($schemaFile, 0, true);
+                if (isset($schema->object)) {
+                    foreach ($schema->object as $obj) {
+                        $objects[] = (string)$obj['class'];
+                    }
+                }
+                unset($schema);
             }
-            // Переименовываем 2
-            $query = "SHOW COLUMNS FROM {$modx->getTableName('UserStatistics')}";
-            $result = $modx->query($query);
-            $fields = $result->fetchAll(PDO::FETCH_ASSOC);
-            $rename = true;
-            foreach ($fields as $field){
-                if ($field['Field'] == 'uid') $rename = false;
-            };
-            if ($rename) {
-                $query = "ALTER TABLE {$modx->getTableName('UserStatistics')} CHANGE user uid int";
-                $result = $modx->exec($query);
+            foreach ($objects as $tmp) {
+                $table = $modx->getTableName($tmp);
+                $sql = "SHOW TABLES LIKE '".trim($table,'`')."'";
+                $stmt = $modx->prepare($sql);
+                $newTable = true;
+                if ($stmt->execute() && $stmt->fetchAll()) {
+                    $newTable = false;
+                }
+                // If the table is just created
+                if ($newTable) {
+                    $manager->createObjectContainer($tmp);
+                } else {
+                    // If the table exists
+                    // 1. Operate with tables
+                    $tableFields = array();
+                    $c = $modx->prepare("SHOW COLUMNS IN {$table}");
+                    $c->execute();
+                    while ($cl = $c->fetch(PDO::FETCH_ASSOC)) {
+                        $tableFields[$cl['Field']] = $cl['Field'];
+                    }
+                    foreach ($modx->getFields($tmp) as $field => $v) {
+                        if (in_array($field, $tableFields)) {
+                            unset($tableFields[$field]);
+                            $manager->alterField($tmp, $field);
+                        } else {
+                            $manager->addField($tmp, $field);
+                        }
+                    }
+                    foreach ($tableFields as $field) {
+                        $manager->removeField($tmp, $field);
+                    }
+                    // 2. Operate with indexes
+                    $indexes = array();
+                    $c = $modx->prepare("SHOW INDEX FROM {$modx->getTableName($tmp)}");
+                    $c->execute();
+                    while ($cl = $c->fetch(PDO::FETCH_ASSOC)) {
+                        $indexes[$cl['Key_name']] = $cl['Key_name'];
+                    }
+                    foreach ($modx->getIndexMeta($tmp) as $name => $meta) {
+                        if (in_array($name, $indexes)) {
+                            unset($indexes[$name]);
+                        } else {
+                            $manager->addIndex($tmp, $name);
+                        }
+                    }
+                    foreach ($indexes as $index) {
+                        $manager->removeIndex($tmp, $index);
+                    }
+                }
             }
-            //UserStatistics
-            $manager->addField('UserStatistics','rid');
-            $manager->addField('UserStatistics','show_message');
-            $manager->addField('UserStatistics','message');
-            $manager->addField('UserStatistics','message_showed');
-            $manager->addIndex('UserStatistics','uid');
-            $manager->addIndex('UserStatistics','date');
-            //PageStatistics
-            $manager->removeIndex('PageStatistics','PRIMARY');
-            $manager->addIndex('PageStatistics','PRIMARY');
-			break;
+            break;
 
-		case xPDOTransport::ACTION_UNINSTALL:
-			break;
-	}
+        case xPDOTransport::ACTION_UNINSTALL:
+            break;
+    }
 }
 return true;

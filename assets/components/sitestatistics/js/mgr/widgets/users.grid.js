@@ -45,7 +45,7 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 		this.addContextMenuItem(menu);
 	},
 	getFields: function (config) {
-		return ['user_key', 'fullname','date', 'rid', 'context','actions','message_showed'];
+		return ['user_key', 'fullname','date', 'rid', 'context', 'actions', 'message_showed', 'ip', 'user_agent'];
 	},
 	getStatistics: function (btn, e, row) {
 		var record = typeof(row) != 'undefined'
@@ -132,24 +132,36 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			header: _('sitestatistics_users'),
 			dataIndex: 'fullname',
 			sortable: true,
-			width: 200
+			width: 150
 		}, {
 			header: _('sitestatistics_resource'),
 			dataIndex: 'rid',
 			sortable: true,
-			width: 200
+			width: 180
 		}, {
 			header: _('sitestatistics_date'),
 			dataIndex: 'date',
 			sortable: true,
-			fixed: true,
-			width: 180
+			fixed: false,
+			width: 100
 		}, {
 			header: _('sitestatistics_context'),
 			dataIndex: 'context',
 			sortable: false,
-			fixed: true,
-			width: 80
+			fixed: false,
+			width: 50
+		}, {
+			header: _('sitestatistics_ip'),
+			dataIndex: 'ip',
+			sortable: false,
+			fixed: false,
+			width: 60
+		}, {
+			header: _('sitestatistics_user_agent'),
+			dataIndex: 'user_agent',
+			sortable: false,
+			fixed: false,
+			width: 150
 		}, {
 			header: _('sitestatistics_msg_showed'),
 			dataIndex: 'message_showed',

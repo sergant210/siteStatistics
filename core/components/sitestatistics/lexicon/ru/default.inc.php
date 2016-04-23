@@ -37,6 +37,8 @@ $_lang['sitestatistics_collapse_all'] = 'Свернуть всё';
 $_lang['sitestatistics_record'] = 'Запись';
 $_lang['sitestatistics_records'] = 'Записи(ей)';
 $_lang['sitestatistics_package_update'] = ' <i class="icon icon-exclamation-triangle package-update" title="Доступна новая версия"></i>';
+$_lang['sitestatistics_ip'] = 'IP';
+$_lang['sitestatistics_user_agent'] = 'User agent';
 
 $_lang['day'] = 'День';
 $_lang['month'] = 'Месяц';

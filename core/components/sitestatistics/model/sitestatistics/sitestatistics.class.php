@@ -42,16 +42,23 @@ class siteStatistics {
 		$this->modx->addPackage('sitestatistics', $this->config['modelPath']);
 		$this->modx->lexicon->load('sitestatistics:default');
 	}
+
+    /**
+     * @param array $sp
+     */
 	public function initialize($sp = array())
     {
         if (!$this->initialized) {
             $style = $this->modx->getOption('stat.frontend_css',null,'');
             if ($style) $this->modx->regClientCSS($style);
-            $this->config = array_merge($this->config, $sp);
             $this->initialized = true;
         }
+        $this->config = array_merge($this->config, $sp);
 	}
 
+    /**
+     * @return string
+     */
     public function defineUserKey()
     {
         $key = 'siteStatistics';
@@ -79,6 +86,10 @@ class siteStatistics {
         return '';
     }
 
+    /**
+     * Set page statistics
+     * @return boolean
+     */
 	public function setStatistics()
     {
         if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') return false;
@@ -97,10 +108,12 @@ class siteStatistics {
 			$pageStat->set('views',0);
 		}
 		$count = $pageStat->get('views');
-        //TODO  ip
-        //$pageStat->set('user_ip',$this->getUsetIP());
+
 		$pageStat->set('views',$count+1);
-		$pageStat->save();
+        if ($pageStat->save()) {
+            return true;
+        }
+        return false;
 	}
 
     /**
@@ -187,7 +200,7 @@ class siteStatistics {
 	}
 
 	/**
-	 *
+	 * Set user statistics
 	 */
 	public function setUserStatistics()
     {
@@ -198,7 +211,9 @@ class siteStatistics {
             $setData = array(
                 'date' => date('Y-m-d H:i'),
                 'rid' => $this->modx->resource->id,
-                'context' => $this->modx->context->get('key')
+                'context' => $this->modx->context->get('key'),
+                'ip' => $this->getUsetIP(),
+                'user_agent' => "'" . $_SERVER['HTTP_USER_AGENT'] . "'",
             );
             if ($this->modx->user->id != 0) $setData['uid'] = $this->modx->user->id;
 			$query->set($setData);
@@ -214,9 +229,11 @@ class siteStatistics {
 				$this->modx->quote(date('Y-m-d H:i')),
 				$this->modx->user->id,
 				"'".$this->modx->context->get('key')."'",
-                $this->modx->resource->id
-			);
-			$sql = "INSERT INTO {$this->modx->getTableName('UserStatistics')} (`user_key`,`date`,`uid`,`context`,`rid`) VALUES (" . implode(',',$data).")";
+                $this->modx->resource->id,
+                $this->getUsetIP(),
+                $_SERVER['HTTP_USER_AGENT'],
+             );
+			$sql = "INSERT INTO {$this->modx->getTableName('UserStatistics')} (`user_key`,`date`,`uid`,`context`,`rid`,`ip`,`user_agent`) VALUES (" . implode(',',$data).")";
 			$query = $this->modx->prepare($sql);
 			if (!$query->execute()) {
 				$this->modx->log(modX::LOG_LEVEL_ERROR, '[siteStatistics] Could not save online user data. '.print_r($query->errorInfo(),1));
@@ -251,6 +268,9 @@ class siteStatistics {
 		return array('stat.online_users'=>$users,'stat.online_guests'=>$guests);
 	}
 
+    /**
+     * @return bool
+     */
     public function getMessage()
     {
         if ($user = $this->modx->getObject('UserStatistics', array('user_key'=>$_SESSION['siteStatistics'], 'show_message'=>1)) ) {
@@ -285,6 +305,10 @@ class siteStatistics {
         }
         return false;
     }
+
+    /**
+     * Clear cache after the user got a message.
+     */
     public function clearCache()
     {
         if ($this->need2ClearCache) {

@@ -28,7 +28,7 @@ Ext.extend(siteStatistics.grid.OnlineUsers, MODx.grid.Grid, {
 	windows: {},
 
 	getFields: function (config) {
-		return ['user_key', 'fullname','date', 'rid', 'context'];
+		return ['user_key', 'fullname','date', 'rid', 'context', 'ip', 'user_agent'];
 	},
 
 	getColumns: function (config) {
@@ -52,12 +52,24 @@ Ext.extend(siteStatistics.grid.OnlineUsers, MODx.grid.Grid, {
 			header: _('stat_online_time'),
 			dataIndex: 'date',
 			sortable: true,
-			width: 100
+			width: 70
 		}, {
 			header: _('sitestatistics_context'),
 			dataIndex: 'context',
 			sortable: false,
-			width: 100
+			width: 50
+		}, {
+			header: _('sitestatistics_ip'),
+			dataIndex: 'ip',
+			sortable: false,
+			fixed: false,
+			width: 50
+		}, {
+			header: _('sitestatistics_user_agent'),
+			dataIndex: 'user_agent',
+			sortable: false,
+			fixed: false,
+			width: 180
 		}];
 	},
 

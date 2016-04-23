@@ -37,6 +37,8 @@ $_lang['sitestatistics_collapse_all'] = 'Collapse All';
 $_lang['sitestatistics_record'] = 'Record';
 $_lang['sitestatistics_records'] = 'Records';
 $_lang['sitestatistics_package_update'] = ' <i class="icon icon-exclamation-triangle package-update" title="New update is available"></i>';
+$_lang['sitestatistics_ip'] = 'IP';
+$_lang['sitestatistics_user_agent'] = 'User agent';
 
 $_lang['day'] = 'Day';
 $_lang['month'] = 'Month';

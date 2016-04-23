@@ -2,17 +2,17 @@
 if (preg_match('/(bot|spider|slurp)/i',$_SERVER['HTTP_USER_AGENT'])) return;
 switch ($modx->event->name) {
     case 'OnLoadWebDocument': {
-        if ($modx->getOption('stat.enable_statistics', false) || $modx->getOption('stat.count_online_users', false)) {
+        if ($modx->getOption('stat.enable_statistics', null, false) || $modx->getOption('stat.count_online_users', null, false)) {
             $path = $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/').'model/sitestatistics/';
             /** @var siteStatistics $siteStat */
             $siteStat = $modx->getService('sitestatistics', 'siteStatistics', $path);
             $siteStat->defineUserKey();
             // Статистика просмотров
-            if ($modx->getOption('stat.enable_statistics', false)) {
+            if ($modx->getOption('stat.enable_statistics', null, false)) {
                 $siteStat->setStatistics();
             }
             //  Online Users
-            if ($modx->getOption('stat.count_online_users', false)) {
+            if ($modx->getOption('stat.count_online_users', null, false)) {
                 $siteStat->setUserStatistics();
             }
             $siteStat->need2ClearCache = $siteStat->getMessage();

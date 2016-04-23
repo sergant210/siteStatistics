@@ -125,6 +125,8 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 			default:
 				break;
 		}
+//$c->prepare();
+//$this->modx->log(modX::LOG_LEVEL_ERROR, $c->toSQL());
 		return $c;
 	}
 	/**

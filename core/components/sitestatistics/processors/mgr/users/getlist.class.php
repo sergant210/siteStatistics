@@ -22,7 +22,12 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
 		if (!$this->checkPermissions()) {
 			return $this->modx->lexicon('access_denied');
 		}
-
+        $sort = $this->getProperty('sort');
+        if ($sort == 'fullname') {
+            $this->setProperty('sort','User.fullname');
+        } elseif ($sort != $this->defaultSortField) {
+            $this->setProperty('sort','UserStatistics.'.$sort);
+        }
 		return true;
 	}
 
