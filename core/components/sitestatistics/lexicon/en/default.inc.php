@@ -21,6 +21,7 @@ $_lang['sitestatistics_user'] = 'User';
 $_lang['sitestatistics_resource'] = 'Resource';
 $_lang['stat_online_users_title'] = 'Who\'s on the site';
 $_lang['stat_online_time'] = 'Request time';
+$_lang['stat_online_users'] = 'Users';
 $_lang['stat_online_guests'] = 'Guests';
 $_lang['stat_online_guest'] = 'Guest';
 $_lang['stat_online_refresh'] = 'Refresh';
@@ -39,6 +40,7 @@ $_lang['sitestatistics_records'] = 'Records';
 $_lang['sitestatistics_package_update'] = ' <i class="icon icon-exclamation-triangle package-update" title="New update is available"></i>';
 $_lang['sitestatistics_ip'] = 'IP';
 $_lang['sitestatistics_user_agent'] = 'User agent';
+$_lang['sitestatistics_referer'] = 'referer';
 
 $_lang['day'] = 'Day';
 $_lang['month'] = 'Month';
@@ -56,8 +58,12 @@ $_lang['month10'] = 'October';
 $_lang['month11'] = 'November';
 $_lang['month12'] = 'Desember';
 
-$_lang['sitestatistics_item_remove'] = 'Remove statistics';
-$_lang['sitestatistics_item_remove_confirm'] = 'Are you sure?';
+$_lang['sitestatistics_page_remove'] = 'Remove statistics';
+$_lang['sitestatistics_page_remove_confirm'] = 'Are you sure?';
+$_lang['sitestatistics_user_remove'] = 'Remove user';
+$_lang['sitestatistics_users_remove'] = 'Remove users';
+$_lang['sitestatistics_user_remove_confirm'] = 'Remove user and corresponding page statistics?';
+$_lang['sitestatistics_users_remove_confirm'] = 'Remove users and their page statistics?';
 
 $_lang['sitestatistics_item_err_nf'] = 'The record is not found.';
 $_lang['sitestatistics_item_err_ns'] = 'The record is not selected.';

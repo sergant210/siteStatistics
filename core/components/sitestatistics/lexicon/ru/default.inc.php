@@ -21,6 +21,7 @@ $_lang['sitestatistics_user'] = 'Пользователь';
 $_lang['sitestatistics_resource'] = 'Страница';
 $_lang['stat_online_users_title'] = 'Сейчас на сайте';
 $_lang['stat_online_time'] = 'Время обращения';
+$_lang['stat_online_users'] = 'Пользователи';
 $_lang['stat_online_guests'] = 'Гости';
 $_lang['stat_online_guest'] = 'Гость';
 $_lang['stat_online_refresh'] = 'Обновить';
@@ -39,6 +40,7 @@ $_lang['sitestatistics_records'] = 'Записи(ей)';
 $_lang['sitestatistics_package_update'] = ' <i class="icon icon-exclamation-triangle package-update" title="Доступна новая версия"></i>';
 $_lang['sitestatistics_ip'] = 'IP';
 $_lang['sitestatistics_user_agent'] = 'User agent';
+$_lang['sitestatistics_referer'] = 'Referer';
 
 $_lang['day'] = 'День';
 $_lang['month'] = 'Месяц';
@@ -56,8 +58,12 @@ $_lang['month10'] = 'Октябрь';
 $_lang['month11'] = 'Ноябрь';
 $_lang['month12'] = 'Декабрь';
 
-$_lang['sitestatistics_item_remove'] = 'Удалить статистику';
-$_lang['sitestatistics_item_remove_confirm'] = 'Вы уверены, что хотите удалить статистику?';
+$_lang['sitestatistics_page_remove'] = 'Удаление статистики';
+$_lang['sitestatistics_page_remove_confirm'] = 'Вы уверены, что хотите удалить статистику?';
+$_lang['sitestatistics_user_remove'] = 'Удаление пользователя';
+$_lang['sitestatistics_users_remove'] = 'Удаление пользователей';
+$_lang['sitestatistics_user_remove_confirm'] = 'Удалить статистику просмотров удаляемого пользователя?';
+$_lang['sitestatistics_users_remove_confirm'] = 'Удалить статистику просмотров удаляемых пользователей?';
 
 $_lang['sitestatistics_item_err_nf'] = 'Запись не найдена.';
 $_lang['sitestatistics_item_err_ns'] = 'Запись не выбрана.';

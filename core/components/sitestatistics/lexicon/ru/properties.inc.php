@@ -9,4 +9,6 @@ $_lang['sitestatistics_prop_toPlaceholders'] = 'Если "да", то резул
 $_lang['sitestatistics_prop_tpl'] = 'Шаблон для вывода статистики.';
 $_lang['siteonlineusers_prop_ctx'] = 'Контекст, в котором нужно считать пользователей. Если не указан, то считается во всех контекстах.';
 $_lang['siteonlineusers_prop_toPlaceholder'] = 'Если указан этот параметр, то результат будет сохранен в указанный плейсхолдер.';
-$_lang['siteonlineusers_prop_tpl'] = 'Шаблон для вывода информации о текущих пользователях.';
+$_lang['siteonlineusers_prop_tpl'] = 'Шаблон для вывода информации о количестве текущих пользователей (короткий режим).';
+$_lang['siteonlineusers_prop_tplItem'] = 'Шаблон для вывода списка текущих пользователей (для полного режима).';
+$_lang['siteonlineusers_prop_fullMode'] = 'Режим вывода информации о текущих пользователях - короткий (false) или полный (true).';

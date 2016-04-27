@@ -7,3 +7,7 @@ $_lang['setting_stat.enable_statistics'] = 'Включить ведение ст
 $_lang['setting_stat.enable_statistics_desc'] = 'Включает ведение статистики посещений.';
 $_lang['setting_stat.count_online_users'] = 'Включить учет пользователей';
 $_lang['setting_stat.count_online_users_desc'] = 'Регистрирует пользователей, пришедших на сайт. Становится доступен учет online пользователей.';
+$_lang['setting_stat.not_allowed_ip'] = 'Список ip адресов';
+$_lang['setting_stat.not_allowed_ip_desc'] = 'Список ip адресов через запятую, для которых не нужно учитывать статистику.';
+$_lang['setting_stat.not_allowed_user_agents'] = 'Исключенные User-Agent';
+$_lang['setting_stat.not_allowed_user_agents_desc'] = 'Список юзер-агентов через запятую, для которых не нужно учитывать статистику. Например, юзер-агенты ботов - bot,spider,slurp. Чтобы отсечь пользователей с пустым юзер-агентом, нужно указать empty.';

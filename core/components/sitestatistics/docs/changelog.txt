@@ -1,7 +1,29 @@
+2.2.0-pl
+==============
+----------------- ru --------------------
+- Добавлено поле "Referer".
+- Оптимизиновано для PHP 7.
+- Добавлена возможность удаления пользователей.
+- Добавлена системная настройка "not_allowed_ip", в которой можно указать запрещённые для статистики IP адреса.
+- Добавлена системная настройка "not_allowed_user_agents", в которой можно указать запрещённые для статистики User-Agent.
+- Для сниппета siteOnlineUsers добавлен режим вывода полного списка пользователей online.
+----------------- en --------------------
+- Added field "Referer" to the users grid.
+- Optimization for PHP 7.
+- Added an ability to remove users.
+- Added system setting "not_allowed_ip" to exclude specified IPs from statistics.
+- Added system setting "not_allowed_ip" to exclude specified IPs from statistics.
+- For snippet siteOnlineUsers added a mode to show full list of online users.
+
 2.1.0-pl
 ==============
+----------------- ru --------------------
+- Добавлено 2 поля к таблице пользователей - "ip" и "user_agent".
+- Добавлена возможность многократного вызова.
+----------------- en --------------------
 - Added 2 fields to the users grid - "ip" and "user_agent".
 - Multiple calling siteStatistics on the page.
+
 
 2.0.2-pl
 ==============

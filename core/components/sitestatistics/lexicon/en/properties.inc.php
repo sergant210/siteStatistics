@@ -9,4 +9,6 @@ $_lang['sitestatistics_prop_toPlaceholders'] = 'If set true, will output the con
 $_lang['sitestatistics_prop_tpl'] = 'The chunk for the site statistics output.';
 $_lang['siteonlineusers_prop_ctx'] = 'The context to count users. If empty, count in all contexts.';
 $_lang['siteonlineusers_prop_toPlaceholder'] = 'If specified, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
-$_lang['siteonlineusers_prop_tpl'] = 'The users online chunk.';
+$_lang['siteonlineusers_prop_tpl'] = 'Displays the number of online users - authorized and guests (brief mode).';
+$_lang['siteonlineusers_prop_tplItem'] = 'Template of the online users list item (for the full mode).';
+$_lang['siteonlineusers_prop_fullMode'] = 'Display mode - brief (false) or full (true).';

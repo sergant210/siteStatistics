@@ -3,12 +3,12 @@
 /**
  * Get a list of online users
  */
-class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
+class siteStatisticsOnlineUsersGetListProcessor extends modObjectGetListProcessor {
 	public $objectType = 'sitestatistics_item';
 	public $classKey = 'UserStatistics';
 	public $defaultSortField = 'UserStatistics.uid';
 	public $defaultSortDirection = 'ASC';
-	//public $permission = 'list';
+	public $permission = 'list_users';
 
 
 	/**
@@ -32,7 +32,7 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
      */
     public function prepareQueryBeforeCount(xPDOQuery $c) {
         $c->leftJoin('modUserProfile','User');
-        $c->select('UserStatistics.user_key, UserStatistics.rid, UserStatistics.context,User.fullname');
+        $c->select('UserStatistics.user_key, UserStatistics.rid, UserStatistics.context, User.fullname');
         $time = $this->modx->getOption('stat.online_time',null,15);
         $where = "UserStatistics.date > '".date('Y-m-d H:i:s')."' -  INTERVAL '".$time."' MINUTE";
         $c->where($where);
@@ -63,4 +63,4 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
 
 }
 
-return 'siteStatisticsUsersGetListProcessor';
+return 'siteStatisticsOnlineUsersGetListProcessor';

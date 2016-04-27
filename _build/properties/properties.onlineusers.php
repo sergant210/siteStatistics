@@ -15,6 +15,14 @@ $tmp = array(
 		'type' => 'textfield',
 		'value' => 'tpl.siteOnlineUsers',
 	),
+    'tplItem' => array(
+		'type' => 'textfield',
+		'value' => '<p>[[+stat.fullname]]</p>',
+	),
+    'fullMode' => array(
+        'type' => 'combo-boolean',
+        'value' => false,
+	),
 
 );
 

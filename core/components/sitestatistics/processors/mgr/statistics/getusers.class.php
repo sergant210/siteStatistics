@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Get users who visits the selected resource
+ * Get a list of users who visits the selected resource
  */
-class siteStatisticsGetResourseUsersProcessor extends modObjectGetListProcessor {
+class siteStatisticsGetResourceUsersProcessor extends modObjectGetListProcessor {
 	public $objectType = 'sitestatistics_item';
 	public $classKey = 'PageStatistics';
     public $languageTopics = array('sitestatistics');
 	public $defaultSortField = 'User.fullname';
 	public $defaultSortDirection = 'ASC';
-	//public $permission = 'list';
+	public $permission = 'list_users';
 
 
     public function getData() {
@@ -31,7 +31,6 @@ class siteStatisticsGetResourseUsersProcessor extends modObjectGetListProcessor 
             $c->limit($limit,$start);
         }
         $c->prepare();
-//$this->modx->log(modX::LOG_LEVEL_ERROR, $c->toSQL());
         $data['results'] = array();
         if ($c->stmt->execute()) {
             $data['results'] = $c->stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,9 +42,9 @@ class siteStatisticsGetResourseUsersProcessor extends modObjectGetListProcessor 
     public function iterate(array $data) {
         $list = array();
         $this->currentIndex = 0;
-        foreach ($data['results'] as &$row) {
-            $this->prepareRow($row);
-            $list[] = $row;
+        foreach ($data['results'] as $row) {
+            $list[] = $this->prepareUserRow($row);
+//            $list[] = $row;
             $this->currentIndex++;
         }
         return $list;
@@ -116,10 +115,11 @@ class siteStatisticsGetResourseUsersProcessor extends modObjectGetListProcessor 
 
     /**
      */
-    public function prepareRow(&$user) {
+    public function prepareUserRow($user) {
         if (empty($user['fullname'])) $user['fullname'] = $this->modx->lexicon('stat_online_guest');
+        return $user;
     }
 
 }
 
-return 'siteStatisticsGetResourseUsersProcessor';
+return 'siteStatisticsGetResourceUsersProcessor';

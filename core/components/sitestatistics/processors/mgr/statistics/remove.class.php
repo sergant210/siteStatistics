@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Remove an Items
+ * Remove the page statistics
  */
-class siteStatisticsRemoveProcessor extends modObjectProcessor {
+class siteStatisticsPageRemoveProcessor extends modObjectProcessor {
 	public $objectType = 'sitestatistics_item';
 	public $classKey = 'PageStatistics';
 	public $languageTopics = array('sitestatistics');
-	//public $permission = 'remove';
+	public $permission = 'remove_statistics';
 
 	/**
 	 * @return array|string
@@ -71,4 +71,4 @@ class siteStatisticsRemoveProcessor extends modObjectProcessor {
 	}
 }
 
-return 'siteStatisticsRemoveProcessor';
+return 'siteStatisticsPageRemoveProcessor';

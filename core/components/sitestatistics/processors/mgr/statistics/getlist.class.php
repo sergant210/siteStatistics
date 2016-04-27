@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Get a list of Items
+ * Get a list of the viewed resources
  */
 class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 	public $objectType = 'sitestatistics_item';
@@ -10,7 +10,7 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 	public $defaultSortDirection = 'ASC';
 	protected $display_date;
 	protected $period = NULL;
-	//public $permission = 'list';
+	public $permission = 'list_statistics';
 
 
 	/**
@@ -125,8 +125,6 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 			default:
 				break;
 		}
-//$c->prepare();
-//$this->modx->log(modX::LOG_LEVEL_ERROR, $c->toSQL());
 		return $c;
 	}
 	/**
@@ -190,8 +188,8 @@ class siteStatisticsGetListProcessor extends modObjectGetListProcessor {
 				$row['actions'][] = array(
 					'cls' => '',
 					'icon' => 'icon icon-trash-o action-red',
-					'title' => $this->modx->lexicon('sitestatistics_item_remove'),
-					'multiple' => $this->modx->lexicon('sitestatistics_item_remove'),
+					'title' => $this->modx->lexicon('sitestatistics_page_remove'),
+					'multiple' => $this->modx->lexicon('sitestatistics_page_remove'),
 					'action' => 'removeStatistics',
 					'button' => true,
 					'menu' => true,

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Get a list of online users
+ * Get a list of users
  */
 class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
 	public $objectType = 'sitestatistics_item';
 	public $classKey = 'PageStatistics';
 	public $defaultSortField = 'date';
 	public $defaultSortDirection = 'DESC';
-	//public $permission = 'list';
+	public $permission = 'list_statistics';
 
 
 	/**

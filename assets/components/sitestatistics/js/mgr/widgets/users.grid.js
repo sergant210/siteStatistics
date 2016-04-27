@@ -45,7 +45,7 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 		this.addContextMenuItem(menu);
 	},
 	getFields: function (config) {
-		return ['user_key', 'fullname','date', 'rid', 'context', 'actions', 'message_showed', 'ip', 'user_agent'];
+		return ['user_key', 'fullname','date', 'rid', 'context', 'actions', 'message_showed', 'ip', 'user_agent', 'referer'];
 	},
 	getStatistics: function (btn, e, row) {
 		var record = typeof(row) != 'undefined'
@@ -85,8 +85,9 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			this.UserMessageTable.setValues({user_key:users});
 			this.UserMessageTable.show(e.target);
 		} else {
+			var self = this;
 			MODx.Ajax.request({
-				url: this.config.url,
+				url: self.config.url,
 				params: {
 					action: 'mgr/users/getmessage',
 					user_key: users
@@ -94,8 +95,8 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 				listeners: {
 					success: {
 						fn: function (r) {
-							if (this.UserMessageTable) this.UserMessageTable.close();
-							this.UserMessageTable = MODx.load({
+							if (self.UserMessageTable) self.UserMessageTable.close();
+							self.UserMessageTable = MODx.load({
 								xtype: 'sitestatistics-users-message-window',
 								id: 'sitestatistics-message-window',
 								title: _('sitestatistics_message_title', {name: row.data.fullname}),
@@ -103,23 +104,65 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 								listeners: {
 									success: {
 										fn: function () {
-											this.refresh();
-										}, scope: this
+											self.refresh();
+										}, scope: self
 									},
 									failure: {
 										fn: function () {
-										}, scope: this
+										}, scope: self
 									}
 								}
 							});
-							this.UserMessageTable.reset();
-							this.UserMessageTable.setValues(r.object);
-							this.UserMessageTable.show(e.target);
-						}, scope: this
+							self.UserMessageTable.reset();
+							self.UserMessageTable.setValues(r.object);
+							self.UserMessageTable.show(e.target);
+						}, scope: self
 					}
 				}
 			});
 		}
+	},
+	removeUser: function (grid, rowIndex) {
+		var ids = this._getSelectedIds(),
+			self = this;
+		if (!ids.length) {
+			return false;
+		}
+		Ext.Msg.show({
+			title: ids.length > 1
+				? _('sitestatistics_users_remove')
+				: _('sitestatistics_user_remove'),
+			msg: ids.length > 1
+				? _('sitestatistics_users_remove_confirm')
+				: _('sitestatistics_user_remove_confirm'),
+			buttons: Ext.Msg.YESNOCANCEL,
+			closable:false,
+			fn: function(btn) {
+				if (btn != 'cancel') {
+					MODx.Ajax.request({
+						url: self.config.url,
+						scope: self,
+						params: {
+							action: 'mgr/users/remove',
+							ids: Ext.util.JSON.encode(ids),
+							remove_page_stats: btn === 'yes'
+						},
+						listeners: {
+							success: {
+								fn: function () {
+									self.refresh();
+								}, scope: self
+							},
+							failure: {
+								fn: function () {
+								}, scope: self
+							}
+						}
+					});
+				}
+			}
+		});
+		return true;
 	},
 	getColumns: function (config) {
 		return [this.sm,{
@@ -132,12 +175,12 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			header: _('sitestatistics_users'),
 			dataIndex: 'fullname',
 			sortable: true,
-			width: 150
+			width: 130
 		}, {
 			header: _('sitestatistics_resource'),
 			dataIndex: 'rid',
 			sortable: true,
-			width: 180
+			width: 130
 		}, {
 			header: _('sitestatistics_date'),
 			dataIndex: 'date',
@@ -155,7 +198,7 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			dataIndex: 'ip',
 			sortable: false,
 			fixed: false,
-			width: 60
+			width: 70
 		}, {
 			header: _('sitestatistics_user_agent'),
 			dataIndex: 'user_agent',
@@ -163,18 +206,24 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			fixed: false,
 			width: 150
 		}, {
+			header: _('sitestatistics_referer'),
+			dataIndex: 'referer',
+			sortable: false,
+			fixed: false,
+			width: 120
+		}, {
 			header: _('sitestatistics_msg_showed'),
 			dataIndex: 'message_showed',
 			sortable: false,
-			fixed: true,
-			width: 180
+			fixed: false,
+			width: 120
 		}, {
 			header: '<i class="icon icon-cog" style="margin-left: 2px;"></i>',
 			dataIndex: 'actions',
 			renderer: siteStatistics.utils.renderActions,
 			sortable: false,
 			fixed: true,
-			width: 70,
+			width: 100,
 			id: 'actions'
 		}];
 	},
@@ -211,12 +260,11 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 	_getSelectedIds: function () {
 		var ids = [];
 		var selected = this.getSelectionModel().getSelections();
-
 		for (var i in selected) {
 			if (!selected.hasOwnProperty(i)) {
 				continue;
 			}
-			ids.push(selected[i]['user_key']);
+			ids.push(selected[i]['data']['user_key']);
 		}
 
 		return ids;

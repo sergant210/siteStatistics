@@ -23,6 +23,16 @@ $tmp = array(
         'value' => '{assets_url}components/sitestatistics/css/web/style.css',
         'area'  => 'sitestatistics_main',
     ),
+    'not_allowed_ip' => array(
+        'xtype' => 'textfield',
+        'value' => '',
+        'area'  => 'sitestatistics_main',
+    ),
+    'not_allowed_user_agents' => array(
+        'xtype' => 'textfield',
+        'value' => '',
+        'area'  => 'sitestatistics_main',
+    ),
 );
 
 foreach ($tmp as $k => $v) {

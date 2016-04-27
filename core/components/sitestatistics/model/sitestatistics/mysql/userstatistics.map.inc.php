@@ -16,6 +16,7 @@ $xpdo_meta_map['UserStatistics']= array (
     'message_showed' => NULL,
     'ip' => NULL,
     'user_agent' => NULL,
+    'referer' => NULL,
   ),
   'fieldMeta' => 
   array (
@@ -90,6 +91,13 @@ $xpdo_meta_map['UserStatistics']= array (
       'null' => false,
     ),
     'user_agent' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '250',
+      'phptype' => 'string',
+      'null' => false,
+    ),
+    'referer' => 
     array (
       'dbtype' => 'varchar',
       'precision' => '250',

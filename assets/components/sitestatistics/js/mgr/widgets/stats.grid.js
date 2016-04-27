@@ -70,8 +70,8 @@ Ext.extend(siteStatistics.grid.Statistics, MODx.grid.Grid, {
 			return false;
 		}
 		MODx.msg.confirm({
-			title: _('sitestatistics_item_remove'),
-			text:  _('sitestatistics_item_remove_confirm'),
+			title: _('sitestatistics_page_remove'),
+			text:  _('sitestatistics_page_remove_confirm'),
 			url: this.config.url,
 			params: {
 				action: 'mgr/statistics/remove',

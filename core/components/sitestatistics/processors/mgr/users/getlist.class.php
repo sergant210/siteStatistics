@@ -9,7 +9,7 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
     public $languageTopics = array('sitestatistics');
 	public $defaultSortField = 'UserStatistics.date';
 	public $defaultSortDirection = 'DESC';
-	//public $permission = 'list';
+	public $permission = 'list_users';
 
 
 	/**
@@ -79,6 +79,16 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
             'title' => $this->modx->lexicon('sitestatistics_send_message'),
             'multiple' => $this->modx->lexicon('sitestatistics_send_message'),
             'action' => 'sendMessage',
+            'button' => true,
+            'menu' => true,
+        );
+        // Remove
+        $user['actions'][] = array(
+            'cls' => '',
+            'icon' => 'icon icon-trash-o action-red',
+            'title' => $this->modx->lexicon('sitestatistics_user_remove'),
+            'multiple' => $this->modx->lexicon('sitestatistics_users_remove'),
+            'action' => 'removeUser',
             'button' => true,
             'menu' => true,
         );
