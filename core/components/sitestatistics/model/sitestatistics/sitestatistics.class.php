@@ -216,6 +216,7 @@ class siteStatistics {
                 'date' => date('Y-m-d H:i'),
                 'rid' => $this->modx->resource->id,
                 'context' => $this->modx->context->get('key'),
+                'ip' => $this->getUsetIP(),
             );
             if ($this->modx->user->id != 0) $setData['uid'] = $this->modx->user->id;
             $query->set($setData);
