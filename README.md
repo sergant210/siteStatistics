@@ -20,8 +20,8 @@ Displays information about views and visits of both individual resources and the
 
 Displays information about users who are currently on the site.
 ```html
-<!-- Short mode
+<!-- Short mode -->
 [[!siteOnlineUsers]]
-<!-- Detailed list of users
+<!-- Detailed list of users -->
 [[!siteOnlineUsers? &fullMode=`1`]]
 ```
