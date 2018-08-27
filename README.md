@@ -9,7 +9,7 @@ It's a MODX Extra for site statistics. It can be used to view:
 * siteStatistics
  
 Displays information about views and visits of both individual resources and the entire site.
-```$html
+```html
 <!-- Current resource views -->
 [[!siteStatistics]]
 
@@ -22,6 +22,7 @@ Displays information about users who are currently on the site.
 ```html
 <!-- Short mode -->
 [[!siteOnlineUsers]]
+
 <!-- Detailed list of users -->
 [[!siteOnlineUsers? &fullMode=`1`]]
 ```
