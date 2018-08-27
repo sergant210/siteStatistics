@@ -26,3 +26,5 @@ Displays information about users who are currently on the site.
 <!-- Detailed list of users -->
 [[!siteOnlineUsers? &fullMode=`1`]]
 ```
+
+[Russian documentation](https://modzone.ru/documentation/sitestatistics/).
