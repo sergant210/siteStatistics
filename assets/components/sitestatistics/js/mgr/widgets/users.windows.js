@@ -5,7 +5,8 @@ siteStatistics.window.UserVisits = function (config) {
 	}
 	Ext.applyIf(config, {
 		autoHeight: true,
-		stateful: true,
+		stateful: false,
+		width: 600,
 		//modal: true,
 		items: [{
 			xtype: 'sitestatistics-user-stats-grid',
@@ -45,16 +46,16 @@ siteStatistics.grid.UserStatGrid = function (config) {
 			width: 100
 		}, {
 			header: _('sitestatistics_resource'),
-			dataIndex: 'rid',
+			dataIndex: 'pagetitle',
 			sortable: false,
-			width: 100
+			width: 200
 		}, {
 			header: _('sitestatistics_views'),
 			dataIndex: 'views',
 			sortable: false,
-			width: 100
+			width: 70
 		}],
-		fields: ['user_key','date','views','rid','month'],
+		fields: ['user_key', 'date', 'views', 'rid', 'pagetitle', 'month'],
 		url: siteStatistics.config.connector_url,
 		paging: true,
 		pageSize: 10,

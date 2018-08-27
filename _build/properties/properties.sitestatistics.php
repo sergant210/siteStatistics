@@ -3,13 +3,13 @@
 $properties = array();
 
 $tmp = array(
-	'count' => array(
+	'countby' => array(
 		'type' => 'list',
 		'options' => array(
 			array('text' => '', 'value' => ''),
-			array('text' => 'byday', 'value' => 'byday'),
-			array('text' => 'bymonth', 'value' => 'bymonth'),
-			array('text' => 'byyear', 'value' => 'byyear'),
+			array('text' => 'day', 'value' => 'day'),
+			array('text' => 'month', 'value' => 'month'),
+			array('text' => 'year', 'value' => 'year'),
 		),
 		'value' => ''
 	),

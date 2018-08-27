@@ -2,6 +2,7 @@
 $_lang['sitestatistics'] = 'siteStatistics';
 $_lang['sitestatistics_title'] = 'Site statistics management';
 $_lang['stat_tab_title'] = 'Statistics';
+$_lang['resources_tab_title'] = 'Resources';
 $_lang['users_tab_title'] = 'Users';
 $_lang['onlineusers_tab_title'] = 'Online';
 $_lang['sitestatistics_menu_desc'] = 'Site statistics management';
@@ -27,7 +28,7 @@ $_lang['stat_online_guest'] = 'Guest';
 $_lang['stat_online_refresh'] = 'Refresh';
 $_lang['sitestatistics_msg_showed'] = 'Showed';
 $_lang['sitestatistics_message'] = 'Message';
-$_lang['sitestatistics_open_stat'] = 'Show statistics';
+$_lang['sitestatistics_open_stat'] = 'Resource statistics';
 $_lang['sitestatistics_send_message'] = 'Send a message';
 $_lang['sitestatistics_visits_title'] = 'Visits of user `[[+name]]`';
 $_lang['sitestatistics_message_title'] = 'A message for user `[[+name]]`';

@@ -7,15 +7,19 @@ siteStatistics.panel.Home = function (config) {
 		items: [{
 			html: '<h2>' + _('sitestatistics_title') + '</h2>',
 			cls: '',
-			style: {margin: '15px 0'},
+			style: {margin: '15px 5px'},
 			id: 'sitestatistics-panel-title'
 		}, {
 			xtype: 'modx-tabs',
 			defaults: {border: false, autoHeight: true},
 			border: true,
 			hideMode: 'offsets',
+			stateful: true,
+			stateId: 'modextra-panel-home',
+			stateEvents: ['tabchange'],
+			getState:function() {return {activeTab:this.items.indexOf(this.getActiveTab())};},
 			items: [{
-				title: _('stat_tab_title'),
+				title: _('resources_tab_title'),
 				layout: 'anchor',
 				items: [{
 					xtype: 'sitestatistics-grid-statistics',

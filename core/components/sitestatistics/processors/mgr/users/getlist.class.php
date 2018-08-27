@@ -9,7 +9,7 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
     public $languageTopics = array('sitestatistics');
 	public $defaultSortField = 'UserStatistics.date';
 	public $defaultSortDirection = 'DESC';
-	public $permission = 'list_users';
+	public $permission = 'list_statistics';
 
 
 	/**
@@ -58,7 +58,7 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
         if (!$pagetitle = $this->modx->getValue($query->prepare())) $pagetitle = $user['rid'];
         $user['rid'] = !empty($user['rid']) ? '<a href="?a=resource/update&id='.$user['rid'].'">'.$pagetitle.'</a>' : '';
         $month = 'month'. date('n',strtotime($user['date']));
-        $user['date'] = $this->modx->lexicon($month).' '.date('j, Y, H:i',strtotime($user['date']));
+        $user['date'] = $this->modx->lexicon($month).' '.date('j, Y, H:i:s',strtotime($user['date']));
         $month = 'month'. date('n',$user['message_showed']);
         if ($user['message_showed']) $user['message_showed'] = $this->modx->lexicon($month).' '.date('j, Y, H:i',$user['message_showed']);
         $user['actions'] = array();

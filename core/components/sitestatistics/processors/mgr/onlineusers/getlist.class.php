@@ -8,7 +8,7 @@ class siteStatisticsOnlineUsersGetListProcessor extends modObjectGetListProcesso
 	public $classKey = 'UserStatistics';
 	public $defaultSortField = 'UserStatistics.uid';
 	public $defaultSortDirection = 'ASC';
-	public $permission = 'list_users';
+	public $permission = 'list_statistics';
 
 
 	/**

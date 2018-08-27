@@ -4,6 +4,10 @@ $xpdo_meta_map['UserStatistics']= array (
   'version' => '1.1',
   'table' => 'stat_online_users',
   'extends' => 'xPDOObject',
+  'tableMeta' => 
+  array (
+    'engine' => 'MyISAM',
+  ),
   'fields' => 
   array (
     'user_key' => NULL,
@@ -73,7 +77,7 @@ $xpdo_meta_map['UserStatistics']= array (
     array (
       'dbtype' => 'text',
       'phptype' => 'string',
-      'null' => false,
+      'null' => true,
     ),
     'message_showed' => 
     array (
@@ -159,6 +163,14 @@ $xpdo_meta_map['UserStatistics']= array (
   'aggregates' => 
   array (
     'User' => 
+    array (
+      'class' => 'modUser',
+      'local' => 'uid',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+    'Profile' => 
     array (
       'class' => 'modUserProfile',
       'local' => 'uid',

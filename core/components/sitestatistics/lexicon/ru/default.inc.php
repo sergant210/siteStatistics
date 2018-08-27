@@ -2,6 +2,7 @@
 $_lang['sitestatistics'] = 'siteStatistics';
 $_lang['sitestatistics_title'] = 'Управление статистикой сайта';
 $_lang['stat_tab_title'] = 'Статистика';
+$_lang['resources_tab_title'] = 'Ресурсы';
 $_lang['users_tab_title'] = 'Пользователи';
 $_lang['onlineusers_tab_title'] = 'Online';
 $_lang['sitestatistics_menu_desc'] = 'Управление статистикой сайта';
@@ -27,7 +28,7 @@ $_lang['stat_online_guest'] = 'Гость';
 $_lang['stat_online_refresh'] = 'Обновить';
 $_lang['sitestatistics_msg_showed'] = 'Показано';
 $_lang['sitestatistics_message'] = 'Сообщение';
-$_lang['sitestatistics_open_stat'] = 'Показать статистику';
+$_lang['sitestatistics_open_stat'] = 'Статистика по ресурсам';
 $_lang['sitestatistics_send_message'] = 'Отправить сообщение';
 $_lang['sitestatistics_message_title'] = 'Сообщение для пользователя `[[+name]]`';
 $_lang['sitestatistics_visits_title'] = 'Посещения пользователя `[[+name]]`';

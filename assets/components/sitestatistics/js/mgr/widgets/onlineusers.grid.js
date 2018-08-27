@@ -69,12 +69,16 @@ Ext.extend(siteStatistics.grid.OnlineUsers, MODx.grid.Grid, {
 			dataIndex: 'user_agent',
 			sortable: false,
 			fixed: false,
+			editable: true,
+			editor:	{xtype: 'textfield'},
 			width: 150
 		}, {
 			header: _('sitestatistics_referer'),
 			dataIndex: 'referer',
 			sortable: false,
 			fixed: false,
+			editable: true,
+			editor:	{xtype: 'textfield'},
 			width: 120
 		}];
 	},

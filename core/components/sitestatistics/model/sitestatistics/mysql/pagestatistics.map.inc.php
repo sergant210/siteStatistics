@@ -4,6 +4,10 @@ $xpdo_meta_map['PageStatistics']= array (
   'version' => '1.1',
   'table' => 'stat_page_statistics',
   'extends' => 'xPDOObject',
+  'tableMeta' => 
+  array (
+    'engine' => 'MyISAM',
+  ),
   'fields' => 
   array (
     'rid' => NULL,

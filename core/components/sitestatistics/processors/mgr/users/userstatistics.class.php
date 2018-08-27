@@ -31,7 +31,8 @@ class siteStatisticsUsersGetListProcessor extends modObjectGetListProcessor {
      * @return xPDOQuery
      */
     public function prepareQueryBeforeCount(xPDOQuery $c) {
-        $c->select('user_key,date,rid,views');
+        $c->select('user_key,date,rid,views, pagetitle');
+        $c->innerJoin('modResource', 'Resource');
         $c->where(array('user_key'=>$this->getProperty('user_key')));
         return $c;
     }

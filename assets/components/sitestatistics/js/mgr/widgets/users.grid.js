@@ -204,17 +204,22 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			dataIndex: 'user_agent',
 			sortable: false,
 			fixed: false,
+			editable: true,
+			editor:	{xtype: 'textfield'},
 			width: 150
 		}, {
 			header: _('sitestatistics_referer'),
 			dataIndex: 'referer',
 			sortable: false,
+			editable: true,
+			editor:	{xtype: 'textfield'},
 			fixed: false,
 			width: 120
 		}, {
 			header: _('sitestatistics_msg_showed'),
 			dataIndex: 'message_showed',
 			sortable: false,
+			hidden: true,
 			fixed: false,
 			width: 120
 		}, {

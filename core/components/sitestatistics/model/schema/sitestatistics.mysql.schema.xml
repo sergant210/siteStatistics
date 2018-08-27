@@ -7,7 +7,7 @@
 		<field key="rid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" />
 		<field key="context" dbtype="varchar" precision="100" phptype="string" null="false" />
 		<field key="show_message" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
-		<field key="message" dbtype="text" phptype="string" null="false" />
+		<field key="message" dbtype="text" phptype="string" null="true" />
 		<field key="message_showed" dbtype="int" precision="11" attributes="unsigned" phptype="integer" null="true"/>
 		<field key="ip" dbtype="varchar" precision="30" phptype="string" null="false" />
 		<field key="user_agent" dbtype="varchar" precision="250" phptype="string" null="false" />
@@ -23,7 +23,8 @@
 			<column key="uid" length="" collation="A" null="false" />
 		</index>
 
-		<aggregate alias="User" class="modUserProfile" local="uid" foreign="internalKey" cardinality="one" owner="foreign" />
+		<aggregate alias="User" class="modUser" local="uid" foreign="id" cardinality="one" owner="foreign" />
+		<aggregate alias="Profile" class="modUserProfile" local="uid" foreign="internalKey" cardinality="one" owner="foreign" />
 		<aggregate alias="PageUser" class="PageStatistics" local="user_key" foreign="user_key" cardinality="many" owner="local" />
 	</object>
 

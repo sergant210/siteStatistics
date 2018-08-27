@@ -8,7 +8,7 @@ class UserStatisticsUpdateProcessor extends modObjectUpdateProcessor {
 	public $classKey = 'UserStatistics';
     public $primaryKeyField = 'user_key';
 	public $languageTopics = array('sitestatistics');
-	public $permission = 'save_message';
+	public $permission = 'messages';
 
 
 	/**

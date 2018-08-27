@@ -35,4 +35,30 @@ switch ($modx->event->name) {
         unset($modx->sitestatistics);
         break;
     }
+    case 'OnDocFormPrerender':
+        if ($modx->getOption('stat.show_statistics_in_doc_form', null, true)) {
+            // <i class="icon icon-eye-slash" style="width: 20px;display: inline-block;margin-left: 10px;color: black;"></i>
+            $output = '
+            Ext.onReady(function() {
+                var cb = Ext.create({
+                    xtype: "xcheckbox",
+                    boxLabel: _("admintools_create_resource_cache"),
+                    description: _("admintools_create_resource_cache_help"),
+                    hideLabel: true,
+                    name: "createCache",
+                    id: "createCache"
+                });
+                if (Ext.getCmp("modx-page-settings-right-box-right")) {
+                    Ext.getCmp("modx-page-settings-right-box-right").insert(2,cb);
+                    Ext.getCmp("modx-page-settings-right-box-left").add(Ext.getCmp("modx-resource-uri-override"));
+                    Ext.getCmp("modx-panel-resource").on("success", function(o){
+                        if (o.result.object.createCache != 0) {
+                            cb.setValue(true);
+                        }
+                    });
+                };
+            }, 200);';
+            $modx->controller->addHtml('<script type="text/javascript">' . $output . '</script>');
+        }
+        break;
 }

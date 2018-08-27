@@ -11,3 +11,5 @@ $_lang['setting_stat.not_allowed_ip'] = 'ip list';
 $_lang['setting_stat.not_allowed_ip_desc'] = 'Comma separated IPs, for which not necessary to count statistics.';
 $_lang['setting_stat.not_allowed_user_agents'] = 'Excluded User-Agents';
 $_lang['setting_stat.not_allowed_user_agents_desc'] = 'Comma separated user-agents, for which not necessary to count statistics. For example, bot user-agents - bot,spider,slurp. To exclude users with empty user-agent, enter the value "empty".';
+$_lang['setting_stat.frontend_css'] = 'Frontend styles';
+$_lang['setting_stat.frontend_css_desc'] = 'Path to file with styles. If empty the styles will not be loaded.';

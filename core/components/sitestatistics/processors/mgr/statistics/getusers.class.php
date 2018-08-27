@@ -9,7 +9,7 @@ class siteStatisticsGetResourceUsersProcessor extends modObjectGetListProcessor 
     public $languageTopics = array('sitestatistics');
 	public $defaultSortField = 'User.fullname';
 	public $defaultSortDirection = 'ASC';
-	public $permission = 'list_users';
+	public $permission = 'list_statistics';
 
 
     public function getData() {

@@ -1,5 +1,17 @@
-2.2.0-pl
+2.2.1-pl
 ==============
+----------------- ru --------------------
+- Включен режим просмотра колонок user-agent и referer по двойному клику.
+- Скрыто поле "Показано" для вывода даты показа сообщения пользователю. Включить его можно через настройки колонок.
+- Переименован параметр "count" в "countby"
+- Небольшие исправления.
+----------------- en --------------------
+- Available the double click for the "user-agent" и "referer" columns.
+- Hidden the column "shown".
+- Rename the snippet parameter "count" to "countby".
+- Bugfixes.
+
+2.2.0-pl
 ----------------- ru --------------------
 - Добавлено поле "Referer".
 - Оптимизиновано для PHP 7.
@@ -12,11 +24,10 @@
 - Optimization for PHP 7.
 - Added an ability to remove users.
 - Added system setting "not_allowed_ip" to exclude specified IPs from statistics.
-- Added system setting "not_allowed_ip" to exclude specified IPs from statistics.
+- Added system setting "not_allowed_user_agents" to exclude specified User-Agents from statistics.
 - For snippet siteOnlineUsers added a mode to show full list of online users.
 
 2.1.0-pl
-==============
 ----------------- ru --------------------
 - Добавлено 2 поля к таблице пользователей - "ip" и "user_agent".
 - Добавлена возможность многократного вызова.

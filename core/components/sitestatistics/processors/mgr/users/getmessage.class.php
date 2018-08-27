@@ -9,7 +9,7 @@ class UserStatisticsMessageGetProcessor extends modObjectGetProcessor {
     /** @var string $primaryKeyField The primary key field to grab the object by */
     public $primaryKeyField = 'user_key';
     public $languageTopics = array('sitestatistics');
-	public $permission = 'view_message';
+	public $permission = 'messages';
 
 
 	/**

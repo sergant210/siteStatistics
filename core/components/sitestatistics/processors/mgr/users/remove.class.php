@@ -7,7 +7,7 @@ class siteStatisticsUserRemoveProcessor extends modObjectProcessor {
 	public $objectType = 'sitestatistics_item';
 	public $classKey = 'UserStatistics';
 	public $languageTopics = array('sitestatistics');
-	public $permission = 'remove_user';
+	public $permission = 'remove_statistics';
 
     /**
      * @return array|string

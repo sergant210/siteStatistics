@@ -7,7 +7,7 @@ class modExtraItemEnableProcessor extends modObjectProcessor {
     public $objectType = 'sitestatistics_item';
     public $classKey = 'UserStatistics';
     public $languageTopics = array('sitestatistics');
-    public $permission = 'save_message';
+    public $permission = 'messages';
 
 
     /**

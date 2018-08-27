@@ -17,7 +17,7 @@ $tmp = array(
 	),
     'tplItem' => array(
 		'type' => 'textfield',
-		'value' => '<p>[[+stat.fullname]]</p>',
+		'value' => '@INLINE <p>[[+stat.fullname]]</p>',
 	),
     'fullMode' => array(
         'type' => 'combo-boolean',

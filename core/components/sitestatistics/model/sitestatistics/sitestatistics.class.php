@@ -16,10 +16,9 @@ class siteStatistics {
      * @param modX $modx
      * @param array $config
      */
-    function __construct(modX &$modx, array $config = array())
+    function __construct(modX $modx, array $config = array())
     {
-        $this->modx =& $modx;
-
+        $this->modx = $modx;
         $corePath = $this->modx->getOption('sitestatistics_core_path', $config, $this->modx->getOption('core_path') . 'components/sitestatistics/');
         $assetsUrl = $this->modx->getOption('sitestatistics_assets_url', $config, $this->modx->getOption('assets_url') . 'components/sitestatistics/');
         $connectorUrl = $assetsUrl . 'connector.php';
@@ -37,7 +36,7 @@ class siteStatistics {
             'snippetsPath' => $corePath . 'elements/snippets/',
             'processorsPath' => $corePath . 'processors/',
 
-            'count' => 'byday'
+            'countby' => 'day'
         ), $config);
         $ip_list = $this->modx->getOption('stat.not_allowed_ip');
         if (!empty($ip_list)) {
@@ -58,11 +57,16 @@ class siteStatistics {
             if ($style) $this->modx->regClientCSS($style);
             $this->initialized = true;
         }
+        if (isset($sp['count'])) {
+            if (!isset($sp['countby'])) {
+                $sp['countby'] = str_replace(array('byday', 'bymonth', 'byyear'), array('day', 'month', 'year'), $sp['count']);
+            }
+            unset($sp['count']);
+        }
         $this->config = array_merge($this->config, $sp);
     }
 
     /**
-     * @return string
      */
     public function defineUserKey()
     {
@@ -81,14 +85,12 @@ class siteStatistics {
                 $_SESSION[$key] = md5('modzone.ru' . time() . rand());
             }
             setcookie($key, $_SESSION[$key], 0x7FFFFFFF, '/');
-        } else {
-            if (empty($_SESSION[$key])) {
-                $_SESSION[$key] = $_COOKIE[$key];
-            } elseif ($_SESSION[$key] != $_COOKIE[$key]) {
-                $_COOKIE[$key] = $_SESSION[$key];
-            }
+        } elseif (empty($_SESSION[$key])) {
+            $_SESSION[$key] = $_COOKIE[$key];
+        } elseif ($_SESSION[$key] != $_COOKIE[$key]) {
+            $_COOKIE[$key] = $_SESSION[$key];
         }
-        return '';
+        $this->modx->setPlaceholder('sitestatistics.userKey', $_SESSION[$key]);
     }
 
     /**
@@ -124,7 +126,7 @@ class siteStatistics {
      * @param $resource
      * @return int|void
      */
-    public function getPageStatistics($resource=0)
+    public function getPageStatistics($resource = 0)
     {
         $query = $this->modx->newQuery('PageStatistics');
         //$query->setClassAlias('');
@@ -133,8 +135,8 @@ class siteStatistics {
                 'rid' => $resource,
             ));
         }
-        switch ($this->config['count']) {
-            case 'byday':
+        switch ($this->config['countby']) {
+            case 'day':
                 $query->groupby('date');
                 if (empty($this->config['date'])) {
                     $query->where(array(
@@ -146,7 +148,7 @@ class siteStatistics {
                     ));
                 }
                 break;
-            case 'bymonth':
+            case 'month':
                 $query->groupby('month');
                 if (empty($this->config['date'])) {
                     $query->where(array(
@@ -158,7 +160,7 @@ class siteStatistics {
                     ));
                 }
                 break;
-            case 'byyear':
+            case 'year':
                 $query->groupby('year');
                 if (empty($this->config['date'])) {
                     $query->where(array(
@@ -199,7 +201,7 @@ class siteStatistics {
         $this->config['show'] = 'all';
         /** @var array $output */
         $output = $this->getPageStatistics();
-        $output = $this->modx->getChunk($this->config['tpl'],$output);
+        $output = $this->modx->getChunk($this->config['tpl'], $output);
         return $output;
     }
 
@@ -213,7 +215,7 @@ class siteStatistics {
             $query = $this->modx->newQuery('UserStatistics');
             $query->command('update');
             $setData = array(
-                'date' => date('Y-m-d H:i'),
+                'date' => date('Y-m-d H:i:s'),
                 'rid' => $this->modx->resource->id,
                 'context' => $this->modx->context->get('key'),
                 'ip' => $this->getUsetIP(),
@@ -229,7 +231,7 @@ class siteStatistics {
         } else {
             $data = array(
                 $this->modx->quote($user_key),
-                $this->modx->quote(date('Y-m-d H:i')),
+                $this->modx->quote(date('Y-m-d H:i:s')),
                 $this->modx->user->id,
                 "'".$this->modx->context->get('key')."'",
                 $this->modx->resource->id,
@@ -252,8 +254,9 @@ class siteStatistics {
     {
         $query = $this->modx->newQuery('UserStatistics');
         if ($this->config['fullMode']) {
-            $query->leftJoin('modUserProfile','User');
-            $query->select("User.fullname");
+            $query->leftJoin('modUserProfile','Profile');
+            $query->leftJoin('modUser','User');
+            $query->select("Profile.fullname, User.username");
 
         } else {
             $query->select('uid');
@@ -270,6 +273,14 @@ class siteStatistics {
         }
         $output = '';
         if ($this->config['fullMode']) {
+            $tplItem = $this->modx->getOption('tplItem', $this->config, '@INLINE <p>[[+stat.fullname]]</p>', true);
+            if (strpos($tplItem, '@INLINE') === false) {
+                if (!$content = $this->modx->getChunk($tplItem)) {
+                    $content = '<p>[[+stat.fullname]]</p>';
+                }
+            } else {
+                $content = substr($tplItem, 8);
+            }
             $guests = $this->modx->lexicon('stat_online_guests');
             $guestCount = 0;
             foreach ($res as $user) {
@@ -277,12 +288,22 @@ class siteStatistics {
                     $guestCount++;
                     continue;
                 }
-                $this->modx->setPlaceholder('stat.fullname',$user['fullname']);
-                $output .= $this->parseChunk($this->config['tplItem']);
+                $this->modx->setPlaceholders(array(
+                    'fullname' => $user['fullname'],
+                    'username' => $user['username'],
+                    ),
+                    'stat.'
+                );
+                $output .= $this->parseChunk($content);
             }
             if ($guestCount) {
-                $this->modx->setPlaceholder('stat.fullname', $guests . ": " . $guestCount);
-                $output .= $this->parseChunk($this->config['tplItem']);
+                $this->modx->setPlaceholders(array(
+                    'fullname' => $guests . ": " . $guestCount,
+                    'username' => $guests . ": " . $guestCount,
+                    ),
+                    'stat.'
+                );
+                $output .= $this->parseChunk($content);
             }
             $this->modx->unsetPlaceholders('stat.fullname');
         } else {
@@ -363,24 +384,16 @@ class siteStatistics {
     }
 
     /**
-     * Получает IP польвателя
+     * Get the user IP
      * @return string
      */
     function getUsetIP(){
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])){
-            //check ip from share internet
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-            //to check ip is pass from proxy
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
+        $ip = $_SERVER['REMOTE_ADDR'];
         return $ip;
     }
 
     /**
-     * Проверяет IP польвателя
+     * Check the user IP
      * @return boolean
      */
     function checkIP(){
