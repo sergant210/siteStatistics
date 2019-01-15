@@ -15,10 +15,10 @@ siteStatistics.grid.Users = function (config) {
 			action: 'mgr/users/getlist'
 		},
 		listeners: {
-			rowDblClick: function (grid, rowIndex, e) {
+			/*rowDblClick: function (grid, rowIndex, e) {
 				var row = grid.store.getAt(rowIndex);
 				this.getStatistics(grid, e, row);
-			}
+			}*/
 		},
 		viewConfig: {
 			forceFit: true,

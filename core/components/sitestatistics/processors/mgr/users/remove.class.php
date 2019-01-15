@@ -17,9 +17,7 @@ class siteStatisticsUserRemoveProcessor extends modObjectProcessor {
             return $this->failure($this->modx->lexicon('access_denied'));
         }
         $remove_page_stats = $this->modx->fromJSON($this->getProperty('remove_page_stats'));
-
         $ids = $this->modx->fromJSON($this->getProperty('ids'));
-//$this->modx->log(modX::LOG_LEVEL_ERROR, $ids);
         if (empty($ids)) {
             return $this->failure($this->modx->lexicon('sitestatistics_item_err_ns'));
         }

@@ -91,6 +91,8 @@ class siteStatistics {
             $_COOKIE[$key] = $_SESSION[$key];
         }
         $this->modx->setPlaceholder('sitestatistics.userKey', $_SESSION[$key]);
+//DEBUGGING
+//log_error($this->modx->getPlaceholder('sitestatistics.userKey'));
     }
 
     /**
@@ -99,7 +101,9 @@ class siteStatistics {
      */
     public function setStatistics()
     {
-        if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') return false;
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            return false;
+        }
         $data = array(
             'rid' => $this->modx->resource->get('id'),
             'date' => date('Y-m-d'),

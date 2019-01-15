@@ -2,15 +2,17 @@
 $userAgents = $modx->getOption('stat.not_allowed_user_agents');
 if (!empty($userAgents)) {
     $userAgents = explode(',', $userAgents);
-    $userAgents = array_map('trim', $userAgents);
+    //$userAgents = array_map('trim', $userAgents);
+    foreach ($userAgents as &$userAgent) {
+        $userAgent = trim($userAgent);
+        $userAgent = preg_quote($userAgent);
+    }
     $userAgents = implode('|', $userAgents);
-    $userAgent = empty($_SERVER['HTTP_USER_AGENT']) ? 'empty' : $_SERVER['HTTP_USER_AGENT'];
-    $pattern = "/($userAgents)/i";
-    if (preg_match($pattern, $userAgent)) return;
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?: 'empty';
+    if (preg_match("/($userAgents)/i", $userAgent)) return;
 }
 switch ($modx->event->name) {
     case 'OnLoadWebDocument': {
-
         if ( ($modx->getOption('stat.enable_statistics', null, false) || $modx->getOption('stat.count_online_users', null, false)) && $modx->getOption('site_status')) {
             $path = $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/').'model/sitestatistics/';
             /** @var siteStatistics $siteStat */
