@@ -39,7 +39,7 @@ Ext.extend(siteStatistics.grid.OnlineUsers, MODx.grid.Grid, {
 			width: 70,
 			hidden: true
 		}, {
-			header: _('sitestatistics_users'),
+			header: _('sitestatistics_user'),
 			dataIndex: 'fullname',
 			sortable: true,
 			width: 150

@@ -33,6 +33,11 @@ $tmp = array(
         'value' => '',
         'area'  => 'sitestatistics_main',
     ),
+    'show_tab_in_resource_form' => array(
+        'xtype' => 'combo-boolean',
+        'value' => true,
+        'area'  => 'sitestatistics_main',
+    ),
 );
 
 foreach ($tmp as $k => $v) {

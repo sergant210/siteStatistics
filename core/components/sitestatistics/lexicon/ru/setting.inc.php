@@ -13,3 +13,5 @@ $_lang['setting_stat.not_allowed_user_agents'] = 'Исключенные User-Ag
 $_lang['setting_stat.not_allowed_user_agents_desc'] = 'Список юзер-агентов через запятую, для которых не нужно учитывать статистику. Например, юзер-агенты ботов - bot,spider,slurp. Чтобы отсечь пользователей с пустым юзер-агентом, нужно указать empty.';
 $_lang['setting_stat.frontend_css'] = 'Стили фронтенда';
 $_lang['setting_stat.frontend_css_desc'] = 'Путь к файлу со стилями. Если оставить пустым, то загрузки не будет.';
+$_lang['setting_stat.show_tab_in_resource_form'] = 'Показать таб';
+$_lang['setting_stat.show_tab_in_resource_form_desc'] = 'Показать таб статистики в форме редактирования ресурса.';

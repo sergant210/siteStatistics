@@ -3,16 +3,18 @@
 /**
  * Remove the user statistics
  */
-class siteStatisticsUserRemoveProcessor extends modObjectProcessor {
-	public $objectType = 'sitestatistics_item';
-	public $classKey = 'UserStatistics';
-	public $languageTopics = array('sitestatistics');
-	public $permission = 'remove_statistics';
+class siteStatisticsUserRemoveProcessor extends modObjectProcessor
+{
+    public $objectType = 'sitestatistics_item';
+    public $classKey = 'UserStatistics';
+    public $languageTopics = ['sitestatistics'];
+    public $permission = 'remove_statistics';
 
     /**
      * @return array|string
      */
-    public function process() {
+    public function process()
+    {
         if (!$this->checkPermissions()) {
             return $this->failure($this->modx->lexicon('access_denied'));
         }
@@ -31,9 +33,9 @@ class siteStatisticsUserRemoveProcessor extends modObjectProcessor {
             if ($object->remove() && $remove_page_stats) {
                 $c = $this->modx->newQuery('PageStatistics');
                 $c->command('delete');
-                $c->where(array(
-                    'user_key'    => $id,
-                ));
+                $c->where([
+                    'user_key' => $id,
+                ]);
                 $c->prepare();
                 $c->stmt->execute();
             }

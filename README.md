@@ -27,4 +27,12 @@ Displays information about users who are currently on the site.
 [[!siteOnlineUsers? &fullMode=`1`]]
 ```
 
+### Backend
+#### Tab "Users"
+You can search only by a specific field. Format of search query - "scope:search query". For example, to filter rows by user fullname - `user:user fullname`.  
+Available scopes: user, page, context, ip, user_agent, referer.  
+
+To get only users with empty referer - `referef:`.
+  
+
 [Russian documentation](https://modzone.ru/documentation/sitestatistics/).

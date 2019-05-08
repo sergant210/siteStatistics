@@ -76,6 +76,9 @@ a.x-menu-item .x-menu-item-text .icon {
 	font-size: smaller;
 	cursor: default;
 }
+label[for="sitestatistics-grid-statistics-show-total"]:before {
+	top:-5px !important;
+}
 /*
 ul.sitestatistics-row-actions .actions-menu {width: 40px;}
 ul.sitestatistics-row-actions .actions-menu:after {content: " \f107";}

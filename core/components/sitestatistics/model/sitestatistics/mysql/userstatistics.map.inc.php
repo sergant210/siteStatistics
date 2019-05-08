@@ -56,6 +56,7 @@ $xpdo_meta_map['UserStatistics']= array (
       'attributes' => 'unsigned',
       'phptype' => 'integer',
       'null' => false,
+      'index' => 'index',
     ),
     'context' => 
     array (
@@ -159,6 +160,22 @@ $xpdo_meta_map['UserStatistics']= array (
         ),
       ),
     ),
+    'rid' => 
+    array (
+      'alias' => 'rid',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'rid' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
   ),
   'aggregates' => 
   array (
@@ -185,6 +202,14 @@ $xpdo_meta_map['UserStatistics']= array (
       'foreign' => 'user_key',
       'cardinality' => 'many',
       'owner' => 'local',
+    ),
+    'Resource' => 
+    array (
+      'class' => 'modResource',
+      'local' => 'rid',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
     ),
   ),
 );

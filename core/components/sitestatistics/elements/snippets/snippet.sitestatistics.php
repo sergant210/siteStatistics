@@ -1,7 +1,7 @@
 <?php
 /** @var array $scriptProperties */
 /** @var siteStatistics $siteStat */
-if (!$siteStat = $modx->getService('sitestatistics', 'siteStatistics', $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/') . 'model/sitestatistics/')) {
+if (!$siteStat = $modx->getService('sitestatistics', 'siteStatistics', $modx->getOption('sitestatistics_core_path', null, $modx->getOption('core_path') . 'components/sitestatistics/') . 'services/')) {
 	return 'Could not load siteStatistics class!';
 }
 // mode: page/site

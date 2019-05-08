@@ -1,3 +1,11 @@
+2.3.0-pl
+==============
+- Added top bar for the tab "Users".
+- Added a tab with user visits in the resource form.
+- Code is converted to PSR-2 coding standard.
+- Service class "siteStatistics" is moved to the "services" folder.
+- Some code optimization and bugfixes.
+
 2.2.2-pl
 ==============
 - Optimized for MODX 2.7.

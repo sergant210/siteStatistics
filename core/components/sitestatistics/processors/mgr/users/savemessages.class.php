@@ -3,17 +3,19 @@
 /**
  * Save messages for selected users
  */
-class modExtraItemEnableProcessor extends modObjectProcessor {
+class modExtraItemEnableProcessor extends modObjectProcessor
+{
     public $objectType = 'sitestatistics_item';
     public $classKey = 'UserStatistics';
-    public $languageTopics = array('sitestatistics');
+    public $languageTopics = ['sitestatistics'];
     public $permission = 'messages';
 
 
     /**
      * @return array|string
      */
-    public function process() {
+    public function process()
+    {
         if (!$this->checkPermissions()) {
             return $this->failure($this->modx->lexicon('access_denied'));
         }
@@ -22,7 +24,7 @@ class modExtraItemEnableProcessor extends modObjectProcessor {
         if (empty($users)) {
             return $this->failure($this->modx->lexicon('sitestatistics_item_err_ns'));
         }
-        foreach (explode(',',$users) as $user) {
+        foreach (explode(',', $users) as $user) {
             /** @var UserStatistics $object */
             if (!$object = $this->modx->getObject($this->classKey, $user)) {
                 return $this->failure($this->modx->lexicon('sitestatistics_item_err_nf'));
@@ -30,9 +32,11 @@ class modExtraItemEnableProcessor extends modObjectProcessor {
 
             $message = $this->getProperty('message');
             $object->set('message', trim($message));
-            $show_message = $this->getProperty('show_message',0);
+            $show_message = $this->getProperty('show_message', 0);
             $object->set('show_message', $show_message);
-            if ($show_message) $object->set('message_showed', null);
+            if ($show_message) {
+                $object->set('message_showed', null);
+            }
 
             $object->save();
         }

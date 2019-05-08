@@ -45,7 +45,7 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 		this.addContextMenuItem(menu);
 	},
 	getFields: function (config) {
-		return ['user_key', 'fullname','date', 'rid', 'context', 'actions', 'message_showed', 'ip', 'user_agent', 'referer'];
+		return ['user_key', 'fullname','date', 'rid', 'pagetitle','context', 'actions', 'message_showed', 'ip', 'user_agent', 'referer'];
 	},
 	getStatistics: function (btn, e, row) {
 		var record = typeof(row) != 'undefined'
@@ -172,13 +172,13 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			width: 40,
 			hidden: true
 		}, {
-			header: _('sitestatistics_users'),
+			header: _('sitestatistics_user'),
 			dataIndex: 'fullname',
 			sortable: true,
 			width: 130
 		}, {
 			header: _('sitestatistics_resource'),
-			dataIndex: 'rid',
+			dataIndex: 'pagetitle',
 			sortable: true,
 			width: 130
 		}, {
@@ -238,6 +238,45 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 			text: '<i class="icon icon-refresh">&nbsp;' + _('stat_online_refresh'),
 			handler: this._refresh,
 			scope: this
+		}, '->', {
+			xtype: 'datefield',
+			name: 'date',
+			format: 'd.m.Y',
+			style: {fontSize: '13px',paddingRight:'0'},
+			emptyText: _('sitestatistics_date'),
+			width: 110,
+			startDay:1,
+			submitValue: false,
+			id:  config.id + '-date-field'
+		}, {
+			xtype: 'textfield',
+			name: 'query',
+			width: 200,
+			id: config.id + '-search-field',
+			emptyText: _('sitestatistics_grid_search'),
+			listeners: {
+				render: {
+					fn: function (tf) {
+						tf.getEl().addKeyListener(Ext.EventObject.ENTER, function () {
+							this._search();
+						}, this);
+					}, scope: this
+				}
+			}
+		}, {
+			xtype: 'button',
+			id:  config.id + '-search-btn',
+			text: '<i class="icon icon-search"></i>',
+			listeners: {
+				click: {fn: this._search, scope: this}
+			}
+		}, {
+			xtype: 'button',
+			id: config.id + '-search-clear',
+			text: '<i class="icon icon-times"></i>',
+			listeners: {
+				click: {fn: this._clearSearch, scope: this}
+			}
 		}];
 	},
 	_refresh: function () {
@@ -273,6 +312,21 @@ Ext.extend(siteStatistics.grid.Users, MODx.grid.Grid, {
 		}
 
 		return ids;
+	},
+	_search: function () {
+		var s = this.getStore();
+		s.baseParams.date = Ext.getCmp(this.config.id +'-date-field').getValue();
+		s.baseParams.query = Ext.getCmp(this.config.id+'-search-field').getValue();
+		this.getBottomToolbar().changePage(1);
+		//this.refresh();
+	},
+
+	_clearSearch: function (btn, e) {
+		this.getStore().baseParams.date = '';
+		this.getStore().baseParams.query = '';
+		Ext.getCmp(this.config.id + '-date-field').setValue('');
+		Ext.getCmp(this.config.id + '-search-field').setValue('');
+		this.getBottomToolbar().changePage(1);
 	}
 });
 Ext.reg('sitestatistics-grid-users', siteStatistics.grid.Users);
